@@ -2,21 +2,21 @@ export const MenuItems = [
   {
     title: 'Home',
     url: '#',
-    clName: 'footer-links',
+    clName: 'headerLinks',
   },
   {
     title: 'Portfolio',
     url: '#',
-    clName: 'footer-links',
+    clName: 'headerLinks',
   },
   {
     title: 'News',
     url: '#',
-    clName: 'footer-links',
+    clName: 'headerLinks',
   },
   {
-    title: 'About',
+    title: 'About us',
     url: '#',
-    clName: 'footer-links',
+    clName: 'headerLinks',
   },
 ];
