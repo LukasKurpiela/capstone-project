@@ -97,11 +97,11 @@ const SearchBar = styled.div`
 `;
 
 const HeadlineWrapper = styled.h4`
-  width: 900px;
+  width: 825px;
   margin: 10px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   position: sticky;
 `;

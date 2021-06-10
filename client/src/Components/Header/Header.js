@@ -1,47 +1,68 @@
-import React, { Component } from 'react';
-import { MenuItems } from './MenuItems';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import marketsBlack from '../../Images/markets-black.png';
 import menuBlack from '../../Images/menu-black.png';
 import closeBlack from '../../Images/close-black.png';
 import { Button } from './Button';
+import { Link } from 'react-router-dom'
 
-class Header extends Component {
-  state = { clicked: false };
+function Header() {
+  const [click, setClick] = useState(false);
+  const [button, setButton] = useState(true);
 
-  handleClick = () => {
-    this.setState({ clicked: !this.state.clicked });
+  const handleClick = () => setClick(!click);
+  const closeMobileMenu = () => setClick(false);
+
+  const showButton = () => {
+    if (window.innerWidth <= 960) {
+      setButton(false);
+    } else {
+      setButton(true);
+    }
   };
 
-  render() {
-    return (
-      <HeaderItems>
-        <HeaderLogo>
-          CoinTrax<MyLogo src={marketsBlack}></MyLogo>
-        </HeaderLogo>
-        <HeaderIcon onClick={this.handleClick}>
-          <i
-            className={this.state.clicked ? { menuBlack } : { closeBlack }}
-          ></i>
-        </HeaderIcon>
-        <HeaderMenu
-          className={this.state.clicked ? 'header-menu active' : 'header-menu'}
-        >
-          {MenuItems.map((item, index) => {
-            return (
-              <li>
-                {/* Wie kann man Komponenten flexibel schreiben? */}
-                <a className={MenuItems.clName} href={item.url}>
-                  {item.title}
-                </a>
-              </li>
-            );
-          })}
-        </HeaderMenu>
-        <Button>Button</Button>
-      </HeaderItems>
-    );
-  }
+  useEffect(() => {
+    showButton();
+  }, []);
+
+  window.addEventListener('resize', showButton);
+
+  return (
+    
+    <HeaderItems>
+      <HeaderLogo>
+        CoinTrax<MyLogo src={marketsBlack}></MyLogo>
+      </HeaderLogo>
+      <HeaderIcon onClick={handleClick}>
+        <i className={click ? { menuBlack } : { closeBlack }}></i>
+      </HeaderIcon>
+      <HeaderMenu
+        className={click ? 'header-menu active' : 'header-menu'}
+      >
+            <HeaderItem>
+              <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+                Home
+              </Link>
+            </HeaderItem>
+            <HeaderItem>
+              <Link to='/portfolio' className='nav-links' onClick={closeMobileMenu}>
+                Portfolio
+              </Link>
+            </HeaderItem>
+            <HeaderItem>
+              <Link to='/news' className='nav-links' onClick={closeMobileMenu}>
+                News
+              </Link>
+            </HeaderItem>
+            <HeaderItem>
+              <Link to='/about-us' className='nav-links' onClick={closeMobileMenu}>
+                About Us
+              </Link>
+            </HeaderItem>
+      </HeaderMenu>
+      {button && <Button buttonStyle='btn--outline'>SIGN UP</Button>}
+    </HeaderItems>
+  );
 }
 
 export default Header;
@@ -59,6 +80,9 @@ const HeaderItems = styled.nav`
   align-items: center;
   font-size: 1.2rem;
 `;
+
+const HeaderItem = styled.li`
+`
 
 const HeaderLogo = styled.h1`
   color: #fff;
