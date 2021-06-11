@@ -1,15 +1,21 @@
+// import { Route, Switch, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 // import StickyHeader from 'react-sticky-header';
 import axios from 'axios';
 import Coins from './Coins';
 import styled from 'styled-components';
 import Header from './Components/Header/Header';
+import Footer from './Components/Footer/Footer';
 
 // https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false
 
 function App() {
   const [coins, setCoins] = useState([]);
   const [search, setSearch] = useState('');
+
+  const [showMarketsIcon, setShowMarketsIcon] = useState(true);
+  const [showPortfolioIcon, setShowPortfolioIcon] = useState(true);
+  const [showNewsIcon, setShowNewsIcon] = useState(true);
 
   useEffect(() => {
     axios
@@ -40,13 +46,6 @@ function App() {
           <CoinInput type="text" placeholder="Search" onChange={handleChange} />
         </form>
       </SearchBar>
-      {/* const MyHeader=() => (
-      <StickyHeader
-      // This is the sticky part of the header.
-      header={
-        }
-        >
-      </StickyHeader> ); */}
       <HeadlineWrapper>
         <p>Name</p>
         <p>Symbol</p>
@@ -55,7 +54,7 @@ function App() {
         <p>Market Cap.</p>
         <p>Volume (24h)</p>
       </HeadlineWrapper>
-
+<main>
       {filteredCoins.map((coin) => {
         return (
           <Coins
@@ -70,6 +69,15 @@ function App() {
           />
         );
       })}
+      </main>
+      <Footer 
+      showMarketsIcon={showMarketsIcon}
+      setShowMarketsIcon={setShowMarketsIcon}
+      showPortfolioIcon={showPortfolioIcon}
+      setShowPortfolioIcon={setShowPortfolioIcon}
+      showNewsIcon={showNewsIcon}
+      setShowNewsIcon={setShowNewsIcon}
+      />
     </CoinApp>
   );
 }
@@ -89,7 +97,7 @@ const CoinApp = styled.div`
 // `;
 
 const SearchBar = styled.div`
-  margin: 45px 0 30px 0;
+  margin: 125px 0 30px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
