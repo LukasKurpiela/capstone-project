@@ -74,20 +74,20 @@ const NavLinkStyled = styled(NavLink)`
 
 const MarketsIconStyled = styled.img`
   height: auto;
-  padding: 1rem;
-  width: 5rem;
+  width: 2.75rem;
+  padding-top: 15px;
 `;
 
 const PortfolioIconStyled = styled.img`
   height: auto;
-  padding: 1rem;
-  width: 5rem;
+  width: 2.75rem;
+  padding-top: 15px;
 `;
 
 const NewsIconStyled = styled.img`
   height: auto;
-  padding: 1rem;
-  width: 5rem;
+  width: 2.75rem;
+  padding-top: 15px;
 `;
 
 Footer.propTypes = {

@@ -19,7 +19,7 @@ const StyledHeader = styled.header`
     #7918f2 48%,
     #4801ff 100%
   );
-  height: 100px;
+  height: 90px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,13 +30,6 @@ const StyledHeader = styled.header`
   left: 0;
   z-index: 100;
 `;
-//   background: var(--secondary);
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: center;
-  
-
-// `;
 
 const Logo = styled.img`
   height: auto;

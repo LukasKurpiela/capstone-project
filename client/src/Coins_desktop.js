@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Coins = ({
+const Coins_desktop = ({
   name,
   image,
   symbol,
@@ -13,25 +13,21 @@ const Coins = ({
   return (
     <CoinWrapper>
       <CoinRow>
-        
+        <Coin>
           <Image src={image} alt="crypto" />
-          <CoinNameWrapper>
           <CoinName>{name}</CoinName>
           <TickerSymbol>{symbol}</TickerSymbol>
-        </CoinNameWrapper>
+        </Coin>
         <CoinData>
-          <PriceWrapper>
           <CoinPrice>${price.toLocaleString()}</CoinPrice>
           {priceChange < 0 ? (
             <PriceChangeNegative>{priceChange.toFixed(2)}%</PriceChangeNegative>
           ) : (
             <PriceChangePositive>{priceChange.toFixed(2)}%</PriceChangePositive>
           )}
-          </PriceWrapper>
-          <MarketCapWrapper>
           <CoinMarketCap>${marketCap.toLocaleString()}</CoinMarketCap>
+
           <CoinVolume>${volume.toLocaleString()}</CoinVolume>
-          </MarketCapWrapper>
         </CoinData>
       </CoinRow>
     </CoinWrapper>
@@ -50,35 +46,17 @@ const CoinRow = styled.div`
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  height:92.5px;
+  height: 100px;
   border-bottom: 1px solid #d7d7d7;
   /* width: 900px; */
 `;
 
-const CoinNameWrapper = styled.p`
+const Coin = styled.div`
   display: flex;
-flex-direction: column;
-  text-align: left;
-  justify-content: space-between;
-  width: 100%;
-
-  /* display: flex;
-  align-items: center; */
+  align-items: center;
   /* padding-right: 24px; */
-  /* min-width: 175px; */
+  min-width: 300px;
 `;
-
-const PriceWrapper = styled.p`
-display: flex;
-flex-direction: column;
-  text-align: right;
-`
-
-const MarketCapWrapper = styled.p`
-display: flex;
-flex-direction: column;
-  text-align: right;
-`
 
 const Image = styled.img`
   height: 30px;
@@ -86,10 +64,9 @@ const Image = styled.img`
   margin-right: 10px;
 `;
 
-const CoinName = styled.p`
+const CoinName = styled.h1`
   font-size: 16px;
-  width: 85px;
-    padding-bottom: 10px;
+  width: 150px;
 `;
 
 const TickerSymbol = styled.p`
@@ -104,27 +81,27 @@ const CoinData = styled.div`
 `;
 
 const CoinPrice = styled.p`
-  width: 85px;
-  padding-bottom: 10px;
+  width: 100px;
   /* display: none; */
 `;
 
 const PriceChangeNegative = styled.p`
+  width: 60px;
   color: red;
 `;
 
 const PriceChangePositive = styled.p`
+  width: 60px;
   color: green;
 `;
 
 const CoinMarketCap = styled.p`
-  width: 150px;
-  padding-bottom: 10px;
+  width: 190px;
   /* display: none; */
 `;
 
 const CoinVolume = styled.p`
-  width: 150px;
+  width: 175px;
 `;
 
 // const media = {

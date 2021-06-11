@@ -99,8 +99,8 @@ const CoinApp = styled.div`
 
 
 const HeadlineWrapper = styled.h4`
-  width: 375px;
-  margin: 0px 10px 10px 10px;
+  width: 825px;
+  margin: 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -109,7 +109,7 @@ const HeadlineWrapper = styled.h4`
 `;
 
 const SearchBar = styled.div`
-  margin: 115px 0 30px 0;
+  margin: 125px 0 30px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
