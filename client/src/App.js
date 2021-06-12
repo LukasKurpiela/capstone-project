@@ -47,12 +47,9 @@ function App() {
         </form>
       </SearchBar>
       <HeadlineWrapper>
-        <p>Name</p>
-        <p>Symbol</p>
+        <p>Coin</p>
         <p>Price</p>
-        <p>24h %</p>
         <p>Market Cap.</p>
-        <p>Volume (24h)</p>
       </HeadlineWrapper>
 <main>
       {filteredCoins.map((coin) => {
@@ -66,6 +63,7 @@ function App() {
             price={coin.current_price}
             priceChange={coin.price_change_percentage_24h}
             volume={coin.total_volume}
+
           />
         );
       })}

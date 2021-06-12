@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import StarNotSelected from './Images/star-white.png'
+import StarSelected from './Images/star-yellow.png'
 
 const Coins = ({
   name,
@@ -8,13 +10,12 @@ const Coins = ({
   marketCap,
   price,
   priceChange,
-  volume,
+  volume
 }) => {
   return (
     <CoinWrapper>
       <CoinRow>
-        
-          <Image src={image} alt="crypto" />
+          <CoinImage src={image} alt="crypto" />
           <CoinNameWrapper>
           <CoinName>{name}</CoinName>
           <TickerSymbol>{symbol}</TickerSymbol>
@@ -33,6 +34,7 @@ const Coins = ({
           <CoinVolume>${volume.toLocaleString()}</CoinVolume>
           </MarketCapWrapper>
         </CoinData>
+        <StarImage src={StarSelected} alt="empty star" />
       </CoinRow>
     </CoinWrapper>
   );
@@ -57,7 +59,7 @@ const CoinRow = styled.div`
 
 const CoinNameWrapper = styled.p`
   display: flex;
-flex-direction: column;
+  flex-direction: column;
   text-align: left;
   justify-content: space-between;
   width: 100%;
@@ -80,7 +82,7 @@ flex-direction: column;
   text-align: right;
 `
 
-const Image = styled.img`
+const CoinImage = styled.img`
   height: 30px;
   width: 30px;
   margin-right: 10px;
@@ -126,6 +128,13 @@ const CoinMarketCap = styled.p`
 const CoinVolume = styled.p`
   width: 150px;
 `;
+
+const StarImage = styled.img`
+height: 15px;
+  width: 15px;
+  margin-left: 5px;
+  
+  `
 
 // const media = {
 //   desktop: '@media(min-width: 900px)',
