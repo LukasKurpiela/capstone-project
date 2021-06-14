@@ -6,11 +6,13 @@ import Coins from './Coins';
 import styled from 'styled-components';
 import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
+import { saveToLocal, loadFromLocal } from './lib/localStorage';
 
 // https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false
 
 function App() {
   const [coins, setCoins] = useState([]);
+  const [likedCoins, setLikedCoins] = useState(loadFromLocal('favoriteCoins') ?? []);
   const [search, setSearch] = useState('');
 
   const [showMarketsIcon, setShowMarketsIcon] = useState(true);
@@ -27,6 +29,9 @@ function App() {
         // console.log(res.data)
       })
       .catch((error) => console.log(error));
+      return {
+        isFavorite: false
+      }
   }, []);
 
   const handleChange = (e) => {
@@ -36,6 +41,21 @@ function App() {
   const filteredCoins = coins.filter((coin) =>
     coin.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  useEffect(() => {
+    saveToLocal('favoriteCoins', likedCoins);
+  }, [likedCoins]);
+
+   function toggleFavorite(itemToToggle) {
+    const updatedCoinsList = coins.map((selectedCoin) => {
+      if (selectedCoin.id === itemToToggle.id) {
+        selectedCoin.isFavorite = !selectedCoin.isFavorite;
+      }
+      return selectedCoin;
+    });
+    setCoins(updatedCoinsList);
+    // loadFavoriteCoins(coins, setLikedCoins);
+  }
 
   return (
     <CoinApp>
@@ -63,7 +83,7 @@ function App() {
             price={coin.current_price}
             priceChange={coin.price_change_percentage_24h}
             volume={coin.total_volume}
-
+            toggleFavorite={toggleFavorite}
           />
         );
       })}
@@ -97,11 +117,11 @@ const CoinApp = styled.div`
 
 
 const HeadlineWrapper = styled.h4`
-  width: 375px;
-  margin: 0px 10px 10px 10px;
+  width: 265px;
+  margin: 0px 10px 10px 30px;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   position: sticky;
 `;

@@ -90,9 +90,9 @@ const MarketsIconStyled = styled.img`
   height: auto;
   width: 2.5rem;
   padding-top: 10px;
-  &:hover {
+  /* &:hover {
     background-color: #87878A;
-  }
+  } */
 `;
 
 const PortfolioIconStyled = styled.img`

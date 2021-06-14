@@ -3,18 +3,23 @@ import styled from 'styled-components';
 import StarNotSelected from './Images/star-white.png'
 import StarSelected from './Images/star-yellow.png'
 
-const Coins = ({
+export default function Coins ({
+  key,
   name,
   image,
   symbol,
   marketCap,
   price,
   priceChange,
-  volume
-}) => {
+  volume, 
+  onToggle
+}) {
+
   return (
     <CoinWrapper>
-      <CoinRow>
+    <CoinRow>
+      {/* <CoinRow onClick={() => onToggle(coins)}>
+      {coins.isFavorite} */}
           <CoinImage src={image} alt="crypto" />
           <CoinNameWrapper>
           <CoinName>{name}</CoinName>
@@ -22,7 +27,7 @@ const Coins = ({
         </CoinNameWrapper>
         <CoinData>
           <PriceWrapper>
-          <CoinPrice>${price.toLocaleString()}</CoinPrice>
+          <CoinPrice>${(price.toFixed(2))}</CoinPrice>
           {priceChange < 0 ? (
             <PriceChangeNegative>{priceChange.toFixed(2)}%</PriceChangeNegative>
           ) : (
@@ -34,13 +39,13 @@ const Coins = ({
           <CoinVolume>${volume.toLocaleString()}</CoinVolume>
           </MarketCapWrapper>
         </CoinData>
-        <StarImage src={StarSelected} alt="empty star" />
+        <StarImage src={StarNotSelected} alt="empty star" />
       </CoinRow>
     </CoinWrapper>
   );
 };
 
-export default Coins;
+
 
 const CoinWrapper = styled.div`
   display: flex;
@@ -52,7 +57,7 @@ const CoinRow = styled.div`
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  height:92.5px;
+  height: 90px;
   border-bottom: 1px solid #d7d7d7;
 
   &:hover {
@@ -91,15 +96,15 @@ flex-direction: column;
 `
 
 const CoinImage = styled.img`
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
   margin-right: 10px;
 `;
 
 const CoinName = styled.p`
-  font-size: 16px;
-  width: 80px;
-    padding-bottom: 10px;
+  width: 65px;
+  padding-bottom: 10px;
+  font-weight: bold;
 `;
 
 const TickerSymbol = styled.p`
@@ -114,8 +119,9 @@ const CoinData = styled.div`
 `;
 
 const CoinPrice = styled.p`
-  width: 85px;
+  width: 75px;
   padding-bottom: 10px;
+  font-weight: bold;
   /* display: none; */
 `;
 
@@ -128,19 +134,20 @@ const PriceChangePositive = styled.p`
 `;
 
 const CoinMarketCap = styled.p`
-  width: 150px;
+  width: 125px;
   padding-bottom: 10px;
+  font-weight: bold;
   /* display: none; */
 `;
 
 const CoinVolume = styled.p`
-  width: 150px;
+  width: 125px;
 `;
 
 const StarImage = styled.img`
 height: 15px;
   width: 15px;
-  margin-left: 5px;
+  margin-left: 10px;
   
   `
 
