@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
 
-import logo from '../../Images/markets-white.png'
+import logo from '../../Images/cointrax-logo.svg'
 
 export default function Header({ isStatic }) {
   return (
@@ -13,12 +13,7 @@ export default function Header({ isStatic }) {
 
 const StyledHeader = styled.header`
 
- background-image: linear-gradient(
-    -225deg,
-    #ac32e4 0%,
-    #7918f2 48%,
-    #4801ff 100%
-  );
+ background-color: #F8F8FF;
   height: 90px;
   display: flex;
   justify-content: center;
@@ -34,7 +29,7 @@ const StyledHeader = styled.header`
 const Logo = styled.img`
   height: auto;
   padding: 1rem;
-  width: 6.5rem;
+  width: 14.5rem;
 `;
 
 Header.propTypes = {

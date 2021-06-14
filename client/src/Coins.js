@@ -54,6 +54,14 @@ const CoinRow = styled.div`
   align-items: center;
   height:92.5px;
   border-bottom: 1px solid #d7d7d7;
+
+  &:hover {
+  background-color: #F8F8FF;
+  box-shadow: 0px 1px 3px #87878A;
+  border-radius: 5px;
+  padding: 0 5px 0 5px
+  }
+  cursor: pointer;
   /* width: 900px; */
 `;
 
@@ -90,7 +98,7 @@ const CoinImage = styled.img`
 
 const CoinName = styled.p`
   font-size: 16px;
-  width: 85px;
+  width: 80px;
     padding-bottom: 10px;
 `;
 

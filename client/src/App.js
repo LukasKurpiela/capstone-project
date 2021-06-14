@@ -108,28 +108,25 @@ const HeadlineWrapper = styled.h4`
 
 const SearchBar = styled.div`
   margin: 115px 0 30px 0;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 1px 2px #87878A;
 `;
 
 const CoinInput = styled.input`
   padding-left: 16px;
   width: 300px;
-  height: 50px;
+  height: 40px;
   border-radius: 4px;
   border: none;
-  background-image: linear-gradient(
-    -225deg,
-    #ac32e4 0%,
-    #7918f2 48%,
-    #4801ff 100%
-  );
-  color: white;
+  background-color: #F8F8FF;
+  color: #515154;
 
   &::placeholder {
-    color: white;
+    color: #515154;
   }
 `;
 

@@ -17,10 +17,12 @@ const GlobalStyle = createGlobalStyle`
 
 body {
   font-family: 'Roboto', sans-serif;
+  color: #1D1D1F;
 }
 
 body * {
   font-family: 'Roboto', sans-serif;
+  color: #1D1D1F;
 }
 
 body, h1, h2, h3, h4, h5, h6, ol, ul {
