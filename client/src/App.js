@@ -83,11 +83,6 @@ const CoinApp = styled.div`
   margin-top: 64 px;
 `;
 
-// const CoinText = styled.h1`
-//   margin-bottom: 32px;
-//   text-align: center;
-// `;
-
 const SearchBar = styled.div`
   margin: 45px 0 30px 0;
   display: flex;
