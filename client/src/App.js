@@ -6,13 +6,12 @@ import Coins from './Coins';
 import styled from 'styled-components';
 import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
-import { saveToLocal, loadFromLocal } from './lib/localStorage';
+
 
 // https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false
 
 function App() {
   const [coins, setCoins] = useState([]);
-  const [likedCoins, setLikedCoins] = useState(loadFromLocal('favoriteCoins') ?? []);
   const [search, setSearch] = useState('');
 
   const [showMarketsIcon, setShowMarketsIcon] = useState(true);
@@ -26,7 +25,6 @@ function App() {
       )
       .then((res) => {
         setCoins(res.data);
-        // console.log(res.data)
       })
       .catch((error) => console.log(error));
       return {
@@ -41,21 +39,6 @@ function App() {
   const filteredCoins = coins.filter((coin) =>
     coin.name.toLowerCase().includes(search.toLowerCase())
   );
-
-  useEffect(() => {
-    saveToLocal('favoriteCoins', likedCoins);
-  }, [likedCoins]);
-
-   function toggleFavorite(itemToToggle) {
-    const updatedCoinsList = coins.map((selectedCoin) => {
-      if (selectedCoin.id === itemToToggle.id) {
-        selectedCoin.isFavorite = !selectedCoin.isFavorite;
-      }
-      return selectedCoin;
-    });
-    setCoins(updatedCoinsList);
-    // loadFavoriteCoins(coins, setLikedCoins);
-  }
 
   return (
     <CoinApp>
@@ -83,7 +66,6 @@ function App() {
             price={coin.current_price}
             priceChange={coin.price_change_percentage_24h}
             volume={coin.total_volume}
-            toggleFavorite={toggleFavorite}
           />
         );
       })}
@@ -108,13 +90,6 @@ const CoinApp = styled.div`
   align-items: center;
   margin-top: 64 px;
 `;
-
-// const CoinText = styled.h1`
-//   margin-bottom: 32px;
-//   text-align: center;
-// `;
-
-
 
 const HeadlineWrapper = styled.h4`
   width: 265px;

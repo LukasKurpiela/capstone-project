@@ -52,7 +52,7 @@ export default function Footer({
 
 const NavWrapper = styled.nav`
 
-  height: 80px;
+  height: 83px;
   px;
   width: 100%;
   display: flex;
@@ -69,7 +69,7 @@ const NavWrapper = styled.nav`
 const NavIcons = styled.ul`
   background-color: #F8F8FF;
   height: 60px;
-  width: 95%;
+  width: 350px;
   box-shadow: 0px 1px 3px #87878A;
   border-radius: 10px;
   /* margin-bottom: 10px; */

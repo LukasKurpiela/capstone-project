@@ -11,17 +11,14 @@ export default function Coins ({
   marketCap,
   price,
   priceChange,
-  volume, 
-  onToggle
+  volume
 }) {
 
   return (
     <CoinWrapper>
     <CoinRow>
-      {/* <CoinRow onClick={() => onToggle(coins)}>
-      {coins.isFavorite} */}
-          <CoinImage src={image} alt="crypto" />
-          <CoinNameWrapper>
+      <CoinImage src={image} alt="crypto" />
+        <CoinNameWrapper>
           <CoinName>{name}</CoinName>
           <TickerSymbol>{symbol}</TickerSymbol>
         </CoinNameWrapper>
