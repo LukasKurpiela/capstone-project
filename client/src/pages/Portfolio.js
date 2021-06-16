@@ -1,48 +1,46 @@
 import React from 'react';
 import styled from 'styled-components';
-import StarNotSelected from './Images/star-white.png'
-import StarSelected from './Images/star-yellow.png'
+import StarNotFilled from '../Images/star.svg';
 
-export default function Coins ({
+export default function Portfolio({
   key,
   name,
   image,
   symbol,
-  marketCap,
   price,
   priceChange,
-  volume
 }) {
-
   return (
     <CoinWrapper>
-    <CoinRow>
-      <CoinImage src={image} alt="crypto" />
+      <CoinRow>
+        <CoinImage src={image} alt="crypto" />
         <CoinNameWrapper>
           <CoinName>{name}</CoinName>
           <TickerSymbol>{symbol}</TickerSymbol>
         </CoinNameWrapper>
         <CoinData>
           <PriceWrapper>
-          <CoinPrice>${(price.toFixed(2))}</CoinPrice>
-          {priceChange < 0 ? (
-            <PriceChangeNegative>{priceChange.toFixed(2)}%</PriceChangeNegative>
-          ) : (
-            <PriceChangePositive>{priceChange.toFixed(2)}%</PriceChangePositive>
-          )}
+            <CoinPrice>${price.toFixed(2)}</CoinPrice>
+            {priceChange < 0 ? (
+              <PriceChangeNegative>
+                {priceChange.toFixed(2)}%
+              </PriceChangeNegative>
+            ) : (
+              <PriceChangePositive>
+                {priceChange.toFixed(2)}%
+              </PriceChangePositive>
+            )}
           </PriceWrapper>
-          <MarketCapWrapper>
-          <CoinMarketCap>${marketCap.toLocaleString()}</CoinMarketCap>
-          <CoinVolume>${volume.toLocaleString()}</CoinVolume>
-          </MarketCapWrapper>
+          <HoldingsWrapper>
+            <CoinHoldingsTotal>$----.--</CoinHoldingsTotal>
+            <CoinHoldingsPerCoin>$--.--</CoinHoldingsPerCoin>
+          </HoldingsWrapper>
         </CoinData>
-        <StarImage src={StarNotSelected} alt="empty star" />
+        <StarImage src={StarNotFilled} alt="Star not filled" />
       </CoinRow>
     </CoinWrapper>
   );
-};
-
-
+}
 
 const CoinWrapper = styled.div`
   display: flex;
@@ -58,10 +56,10 @@ const CoinRow = styled.div`
   border-bottom: 1px solid #d7d7d7;
 
   &:hover {
-  background-color: #F8F8FF;
-  box-shadow: 0px 1px 3px #87878A;
-  border-radius: 5px;
-  padding: 0 5px 0 5px
+    background-color: #f8f8ff;
+    box-shadow: 0px 1px 3px #87878a;
+    border-radius: 5px;
+    padding: 0 5px 0 5px;
   }
   cursor: pointer;
   /* width: 900px; */
@@ -81,16 +79,16 @@ const CoinNameWrapper = styled.p`
 `;
 
 const PriceWrapper = styled.p`
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
   text-align: right;
-`
+`;
 
-const MarketCapWrapper = styled.p`
-display: flex;
-flex-direction: column;
+const HoldingsWrapper = styled.p`
+  display: flex;
+  flex-direction: column;
   text-align: right;
-`
+`;
 
 const CoinImage = styled.img`
   height: 25px;
@@ -130,23 +128,22 @@ const PriceChangePositive = styled.p`
   color: green;
 `;
 
-const CoinMarketCap = styled.p`
+const CoinHoldingsTotal = styled.p`
   width: 125px;
   padding-bottom: 10px;
   font-weight: bold;
   /* display: none; */
 `;
 
-const CoinVolume = styled.p`
+const CoinHoldingsPerCoin = styled.p`
   width: 125px;
 `;
 
 const StarImage = styled.img`
-height: 15px;
-  width: 15px;
+  height: 20px;
+  width: 20px;
   margin-left: 10px;
-  
-  `
+`;
 
 // const media = {
 //   desktop: '@media(min-width: 900px)',

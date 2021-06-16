@@ -7,6 +7,13 @@ const GlobalStyle = createGlobalStyle`
   text-align: center;
   font-weight: 400;
 
+:root {
+    --primary: #F8F8FF;
+    --secondary: #515154;
+    --tertiary: #CBCBD3;
+    --bitcoinColor: #F7931A;
+}
+
 *,
 *::before,
 *::after {

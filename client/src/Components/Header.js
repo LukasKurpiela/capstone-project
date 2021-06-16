@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
 
-import logo from '../../Images/cointrax-logo.svg'
+import logo from '../Images/cointrax-logo.svg';
 
 export default function Header({ isStatic }) {
   return (
@@ -12,8 +12,7 @@ export default function Header({ isStatic }) {
 }
 
 const StyledHeader = styled.header`
-
- background-color: #F8F8FF;
+  background-color: #f8f8ff;
   height: 90px;
   display: flex;
   justify-content: center;

@@ -1,12 +1,10 @@
-// import { Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-// import StickyHeader from 'react-sticky-header';
-import axios from 'axios';
-import Coins from './Coins';
 import styled from 'styled-components';
-import Header from './Components/Header/Header';
-import Footer from './Components/Footer/Footer';
-
+import Coins from './pages/Coins';
+import Portfolio from './pages/Portfolio';
+import Header from './Components/Header';
+import Footer from './Components/Footer';
 
 // https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false
 
@@ -14,22 +12,13 @@ function App() {
   const [coins, setCoins] = useState([]);
   const [search, setSearch] = useState('');
 
-  const [showMarketsIcon, setShowMarketsIcon] = useState(true);
-  const [showPortfolioIcon, setShowPortfolioIcon] = useState(true);
-  const [showNewsIcon, setShowNewsIcon] = useState(true);
-
   useEffect(() => {
-    axios
-      .get(
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
-      )
-      .then((res) => {
-        setCoins(res.data);
-      })
-      .catch((error) => console.log(error));
-      return {
-        isFavorite: false
-      }
+    fetch(
+      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
+    )
+      .then((result) => result.json())
+      .then((coins) => setCoins(coins))
+      .catch((error) => console.error(error.message));
   }, []);
 
   const handleChange = (e) => {
@@ -41,48 +30,86 @@ function App() {
   );
 
   return (
-    <CoinApp>
-      <Header />
-      {/* <CoinText>CoinTrax</CoinText> */}
-      <SearchBar>
-        <form>
-          <CoinInput type="text" placeholder="Search" onChange={handleChange} />
-        </form>
-      </SearchBar>
-      <HeadlineWrapper>
-        <p>Coin</p>
-        <p>Price</p>
-        <p>Market Cap.</p>
-      </HeadlineWrapper>
-<main>
-      {filteredCoins.map((coin) => {
-        return (
-          <Coins
-            key={coin.id}
-            name={coin.name}
-            image={coin.image}
-            symbol={coin.symbol}
-            marketCap={coin.market_cap}
-            price={coin.current_price}
-            priceChange={coin.price_change_percentage_24h}
-            volume={coin.total_volume}
-          />
-        );
-      })}
-      </main>
-      <Footer 
-      showMarketsIcon={showMarketsIcon}
-      setShowMarketsIcon={setShowMarketsIcon}
-      showPortfolioIcon={showPortfolioIcon}
-      setShowPortfolioIcon={setShowPortfolioIcon}
-      showNewsIcon={showNewsIcon}
-      setShowNewsIcon={setShowNewsIcon}
-      />
-    </CoinApp>
+    <Wrapper>
+      <CoinApp>
+        <Switch>
+          <Route exact path="/">
+            <Header />
+            <SearchBar>
+              <form>
+                <CoinInput
+                  type="text"
+                  placeholder="Search"
+                  onChange={handleChange}
+                />
+              </form>
+            </SearchBar>
+            <HeadlineWrapper>
+              <p>Coin</p>
+              <p>Price</p>
+              <p>Market Cap.</p>
+            </HeadlineWrapper>
+            <main>
+              {filteredCoins.map((coin) => {
+                return (
+                  <Coins
+                    key={coin.id}
+                    name={coin.name}
+                    image={coin.image}
+                    symbol={coin.symbol}
+                    marketCap={coin.market_cap}
+                    price={coin.current_price}
+                    priceChange={coin.price_change_percentage_24h}
+                    volume={coin.total_volume}
+                  />
+                );
+              })}
+            </main>
+          </Route>
+          <Route path="/portfolio">
+            <Header />
+            <SearchBar>
+              <form>
+                <CoinInput
+                  type="text"
+                  placeholder="Search"
+                  onChange={handleChange}
+                />
+              </form>
+            </SearchBar>
+            <HeadlineWrapper>
+              <p>Coin</p>
+              <p>Price</p>
+              <p>Holdings</p>
+            </HeadlineWrapper>
+            <main>
+              {filteredCoins.map((coin) => {
+                return (
+                  <Portfolio
+                    key={coin.id}
+                    name={coin.name}
+                    image={coin.image}
+                    symbol={coin.symbol}
+                    price={coin.current_price}
+                    priceChange={coin.price_change_percentage_24h}
+                  />
+                );
+              })}
+            </main>
+          </Route>
+          <Route path="/news"></Route>
+        </Switch>
+        <Footer />
+      </CoinApp>
+    </Wrapper>
   );
 }
 
 export default App;
+
+const Wrapper = styled.div`
+  position: relative;
+`;
 
 const CoinApp = styled.div`
   display: flex;
@@ -108,7 +135,7 @@ const SearchBar = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 1px 2px #87878A;
+  box-shadow: 0 1px 2px #87878a;
 `;
 
 const CoinInput = styled.input`
@@ -117,15 +144,10 @@ const CoinInput = styled.input`
   height: 40px;
   border-radius: 4px;
   border: none;
-  background-color: #F8F8FF;
+  background-color: #f8f8ff;
   color: #515154;
 
   &::placeholder {
     color: #515154;
   }
 `;
-
-// Cryptocompare
-// WebSocket Base URL: wss://streamer.cryptocompare.com/v2
-// const API_KEY = bdb27b9f6be05992ef59e9a7b3cc2e00fb6e6b1257bc960a05b3bf71bdd3202c;
-// const ApiKeyInUrl = wss://streamer.cryptocompare.com/v2?api_key={bdb27b9f6be05992ef59e9a7b3cc2e00fb6e6b1257bc960a05b3bf71bdd3202c})
