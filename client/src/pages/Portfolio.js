@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import StarNotFilled from '../Images/star.svg';
+import StarNotFilled from '../images/star.svg';
 
 export default function Portfolio({
   key,
@@ -49,7 +49,6 @@ const CoinWrapper = styled.div`
 
 const CoinRow = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: start;
   align-items: center;
   height: 90px;

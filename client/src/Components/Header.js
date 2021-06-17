@@ -1,13 +1,23 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
 
-import logo from '../Images/cointrax-logo.svg';
+import logo from '../images/cointrax-logo.svg';
 
-export default function Header({ isStatic }) {
+export default function Header({ isStatic, handleChange, filteredCoins }) {
   return (
-    <StyledHeader isStatic={isStatic}>
-      <Logo src={logo} alt="Logo Cointrax" />
-    </StyledHeader>
+    <>
+      <StyledHeader isStatic={isStatic}>
+        <Logo src={logo} alt="Logo Cointrax" />
+      </StyledHeader>
+      <SearchBar>
+        <CoinInput type="text" placeholder="Search" onChange={handleChange} />
+      </SearchBar>
+      <HeadlineWrapper>
+        <p>Coin</p>
+        <p>Price</p>
+        <p>Market Cap.</p>
+      </HeadlineWrapper>
+    </>
   );
 }
 
@@ -29,6 +39,39 @@ const Logo = styled.img`
   height: auto;
   padding: 1rem;
   width: 14.5rem;
+`;
+
+const SearchBar = styled.form`
+  margin: 115px 0 30px 0;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 1px 2px #87878a;
+`;
+
+const CoinInput = styled.input`
+  padding-left: 16px;
+  width: 300px;
+  height: 40px;
+  border-radius: 4px;
+  border: none;
+  background-color: #f8f8ff;
+  color: #515154;
+
+  &::placeholder {
+    color: #515154;
+  }
+`;
+
+const HeadlineWrapper = styled.h4`
+  width: 265px;
+  margin: 0px 10px 10px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
 `;
 
 Header.propTypes = {

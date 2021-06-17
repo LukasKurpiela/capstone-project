@@ -1,9 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
-import { ReactComponent as MarketsIcon } from '../Images/markets.svg';
-import { ReactComponent as PortfolioIcon } from '../Images/portfolio.svg';
-import { ReactComponent as NewsIcon } from '../Images/news.svg';
+import { ReactComponent as MarketsIcon } from '../images/markets.svg';
+import { ReactComponent as PortfolioIcon } from '../images/portfolio.svg';
+import { ReactComponent as NewsIcon } from '../images/news.svg';
 
 export default function Footer({ isStatic }) {
   return (
@@ -13,10 +13,10 @@ export default function Footer({ isStatic }) {
           <NavLinkStyled exact to="/">
             <MarketsButton title="Home" role="img" />
           </NavLinkStyled>
-          <NavLinkStyled to="/Portfolio">
+          <NavLinkStyled to="/portfolio">
             <PortfolioButton title="Portfolio" role="img" />
           </NavLinkStyled>
-          <NavLinkStyled to="/News">
+          <NavLinkStyled to="/news">
             <NewsButton title="News" role="img" />
           </NavLinkStyled>
         </NavIcons>
@@ -26,7 +26,7 @@ export default function Footer({ isStatic }) {
 }
 
 const NavWrapper = styled.nav`
-  height: 83px;
+  padding-bottom: 20px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -45,7 +45,6 @@ const NavIcons = styled.ul`
   width: 350px;
   box-shadow: 0px 1px 3px #87878a;
   border-radius: 10px;
-  /* margin-bottom: 10px; */
   display: flex;
   flex-direction: row;
   justify-content: space-around;
