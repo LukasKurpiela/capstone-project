@@ -45,7 +45,6 @@ const NavIcons = styled.ul`
   width: 350px;
   box-shadow: 0px 1px 3px #87878a;
   border-radius: 10px;
-  /* margin-bottom: 10px; */
   display: flex;
   flex-direction: row;
   justify-content: space-around;
