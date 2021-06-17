@@ -62,7 +62,6 @@ const MarketsButton = styled(MarketsIcon)`
   fill: var(--tertiary);
 
   .active & path {
-    /* fill: var(--secondary); */
     fill: black;
   }
 `;
@@ -74,7 +73,6 @@ const PortfolioButton = styled(PortfolioIcon)`
   fill: var(--tertiary);
 
   .active & path {
-    /* fill: var(--secondary); */
     fill: black;
   }
 `;
@@ -87,7 +85,6 @@ const NewsButton = styled(NewsIcon)`
 
   .active & path,
   .active & rect {
-    /* fill: var(--secondary); */
     fill: black;
   }
 `;
