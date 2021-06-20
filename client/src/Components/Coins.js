@@ -1,24 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import StarNotFilled from '../images/star.svg';
+import { ReactComponent as StarNotFilled } from '../images/star-noFill-empty.svg';
+import { ReactComponent as StarFilled } from '../images/star-noFill-filled.svg';
 
-export default function Coins({
-  key,
-  name,
-  image,
-  symbol,
-  marketCap,
-  price,
-  priceChange,
-  volume,
-}) {
+export default function Coins({ coin, onToggleFavorite }) {
+  const { image, name, symbol } = coin;
+  const priceChange = coin.price_change_percentage_24h;
+  const price = coin.current_price;
+  const marketCap = coin.market_cap;
+  const volume = coin.total_volume;
+
   return (
     <CoinWrapper>
       <CoinRow>
-        <CoinImage src={image} alt="crypto" />
+        <CoinImage src={image} alt="Logo of cryptocurrency" />
         <CoinNameWrapper>
           <CoinName>{name}</CoinName>
-          <TickerSymbol>{symbol}</TickerSymbol>
+          <CoinSymbol>{symbol}</CoinSymbol>
         </CoinNameWrapper>
         <CoinData>
           <PriceWrapper>
@@ -38,7 +36,13 @@ export default function Coins({
             <CoinVolume>${volume.toLocaleString()}</CoinVolume>
           </MarketCapWrapper>
         </CoinData>
-        <StarImage src={StarNotFilled} alt="Star not filled" />
+        <span onClick={() => onToggleFavorite(coin)}>
+          {coin.isFavorite ? (
+            <StarImageFilled title="StarFilled" role="img" />
+          ) : (
+            <StarImageEmpty title="StarNotFilled" role="img" />
+          )}
+        </span>
       </CoinRow>
     </CoinWrapper>
   );
@@ -55,14 +59,6 @@ const CoinRow = styled.div`
   align-items: center;
   height: 90px;
   border-bottom: 1px solid #d7d7d7;
-
-  &:hover {
-    background-color: #f8f8ff;
-    box-shadow: 0px 1px 3px #87878a;
-    border-radius: 5px;
-    padding: 0 5px 0 5px;
-  }
-  cursor: pointer;
 `;
 
 const CoinNameWrapper = styled.p`
@@ -97,7 +93,7 @@ const CoinName = styled.p`
   font-weight: bold;
 `;
 
-const TickerSymbol = styled.p`
+const CoinSymbol = styled.p`
   text-transform: uppercase;
 `;
 
@@ -132,8 +128,16 @@ const CoinVolume = styled.p`
   width: 125px;
 `;
 
-const StarImage = styled.img`
+const StarImageFilled = styled(StarFilled)`
   height: 20px;
   width: 20px;
   margin-left: 10px;
+  cursor: pointer;
+`;
+
+const StarImageEmpty = styled(StarNotFilled)`
+  height: 20px;
+  width: 20px;
+  margin-left: 10px;
+  cursor: pointer;
 `;

@@ -1,22 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
-import StarNotFilled from '../images/star.svg';
+import { ReactComponent as StarNotFilled } from '../images/star-noFill-empty.svg';
+import { ReactComponent as StarFilled } from '../images/star-noFill-filled.svg';
 
-export default function Portfolio({
-  key,
-  name,
-  image,
-  symbol,
-  price,
-  priceChange,
-}) {
+export default function Portfolio({ coin, onToggleFavorite }) {
+  const { image, name, symbol } = coin;
+  const priceChange = coin.price_change_percentage_24h;
+  const price = coin.current_price;
+
   return (
     <CoinWrapper>
       <CoinRow>
-        <CoinImage src={image} alt="crypto" />
+        {/* <CoinRow onClick={() => loadPortfolioOverview(coin)}> */}
+        <CoinImage src={image} alt="Logo of cryptocurrency" />
         <CoinNameWrapper>
           <CoinName>{name}</CoinName>
-          <TickerSymbol>{symbol}</TickerSymbol>
+          <CoinSymbol>{symbol}</CoinSymbol>
         </CoinNameWrapper>
         <CoinData>
           <PriceWrapper>
@@ -36,7 +35,13 @@ export default function Portfolio({
             <CoinHoldingsPerCoin>$--.--</CoinHoldingsPerCoin>
           </HoldingsWrapper>
         </CoinData>
-        <StarImage src={StarNotFilled} alt="Star not filled" />
+        <span onClick={() => onToggleFavorite(coin)}>
+          {coin.isFavorite ? (
+            <StarImageFilled title="StarFilled" role="img" />
+          ) : (
+            <StarImageEmpty title="StarNotFilled" role="img" />
+          )}
+        </span>
       </CoinRow>
     </CoinWrapper>
   );
@@ -95,7 +100,7 @@ const CoinName = styled.p`
   font-weight: bold;
 `;
 
-const TickerSymbol = styled.p`
+const CoinSymbol = styled.p`
   text-transform: uppercase;
 `;
 
@@ -130,8 +135,16 @@ const CoinHoldingsPerCoin = styled.p`
   width: 125px;
 `;
 
-const StarImage = styled.img`
+const StarImageFilled = styled(StarFilled)`
   height: 20px;
   width: 20px;
   margin-left: 10px;
+  cursor: pointer;
+`;
+
+const StarImageEmpty = styled(StarNotFilled)`
+  height: 20px;
+  width: 20px;
+  margin-left: 10px;
+  cursor: pointer;
 `;
