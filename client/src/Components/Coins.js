@@ -5,10 +5,8 @@ import { ReactComponent as StarFilled } from '../images/star-noFill-filled.svg';
 
 export default function Coins({ coin, onToggleFavorite }) {
   const { image, name, symbol } = coin;
-  const priceChange = coin.price_change_percentage_24h;
-  const price = coin.current_price;
-  const marketCap = coin.market_cap;
-  const volume = coin.total_volume;
+  const {price_change_percentage_24h: priceChange, current_price: price} = coin;
+  const {market_cap: marketCap, total_volume: volume} = coin;
 
   return (
     <CoinWrapper>
