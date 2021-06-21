@@ -1,11 +1,7 @@
 import Portfolio from '../components/Portfolio';
 import Headline from '../components/Headline';
 
-export default function Portfoliopage({
-  filteredCoins,
-  onToggleFavorite,
-  likedCoins,
-}) {
+export default function Portfoliopage({ onToggleFavorite, likedCoins }) {
   return (
     <>
       <Headline Headlinetext="Holdings" />

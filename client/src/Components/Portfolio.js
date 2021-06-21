@@ -5,14 +5,13 @@ import { ReactComponent as StarFilled } from '../images/star-noFill-filled.svg';
 
 export default function Portfolio({ coin, onToggleFavorite }) {
   const { image, name, symbol } = coin;
-  const priceChange = coin.price_change_percentage_24h;
-  const price = coin.current_price;
+  const { price_change_percentage_24h: priceChange, current_price: price } =
+    coin;
 
   return (
     <CoinWrapper>
       <CoinRow>
-        {/* <CoinRow onClick={() => loadPortfolioOverview(coin)}> */}
-        <CoinImage src={image} alt="Logo of cryptocurrency" />
+        <CoinImage src={image} alt={name} />
         <CoinNameWrapper>
           <CoinName>{name}</CoinName>
           <CoinSymbol>{symbol}</CoinSymbol>
@@ -56,7 +55,7 @@ const CoinRow = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
-  height: 90px;
+  height: 5.625rem;
   border-bottom: 1px solid #d7d7d7;
 
   &:hover {
@@ -68,7 +67,7 @@ const CoinRow = styled.div`
   cursor: pointer;
 `;
 
-const CoinNameWrapper = styled.p`
+const CoinNameWrapper = styled.span`
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -76,31 +75,31 @@ const CoinNameWrapper = styled.p`
   width: 100%;
 `;
 
-const PriceWrapper = styled.p`
+const PriceWrapper = styled.span`
   display: flex;
   flex-direction: column;
   text-align: right;
 `;
 
-const HoldingsWrapper = styled.p`
+const HoldingsWrapper = styled.span`
   display: flex;
   flex-direction: column;
   text-align: right;
 `;
 
 const CoinImage = styled.img`
-  height: 25px;
-  width: 25px;
-  margin-right: 10px;
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: 0.625rem;
 `;
 
-const CoinName = styled.p`
-  width: 65px;
+const CoinName = styled.span`
+  width: 4rem;
   padding-bottom: 10px;
   font-weight: bold;
 `;
 
-const CoinSymbol = styled.p`
+const CoinSymbol = styled.span`
   text-transform: uppercase;
 `;
 
@@ -111,40 +110,40 @@ const CoinData = styled.div`
   width: 100%;
 `;
 
-const CoinPrice = styled.p`
-  width: 75px;
+const CoinPrice = styled.span`
+  width: 4.7rem;
   padding-bottom: 10px;
   font-weight: bold;
 `;
 
-const PriceChangeNegative = styled.p`
+const PriceChangeNegative = styled.span`
   color: red;
 `;
 
-const PriceChangePositive = styled.p`
+const PriceChangePositive = styled.span`
   color: green;
 `;
 
-const CoinHoldingsTotal = styled.p`
-  width: 125px;
+const CoinHoldingsTotal = styled.span`
+  width: 7.8rem;
   padding-bottom: 10px;
   font-weight: bold;
 `;
 
-const CoinHoldingsPerCoin = styled.p`
-  width: 125px;
+const CoinHoldingsPerCoin = styled.span`
+  width: 7.8rem;
 `;
 
 const StarImageFilled = styled(StarFilled)`
-  height: 20px;
-  width: 20px;
+  height: 1.25rem;
+  width: 1.25rem;
   margin-left: 10px;
   cursor: pointer;
 `;
 
 const StarImageEmpty = styled(StarNotFilled)`
-  height: 20px;
-  width: 20px;
+  height: 1.25rem;
+  width: 1.25rem;
   margin-left: 10px;
   cursor: pointer;
 `;

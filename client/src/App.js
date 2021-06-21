@@ -10,12 +10,7 @@ import Portfoliobar from './components/Portfoliobar';
 import Portfoliopage from './pages/Portfoliopage';
 
 function App() {
-  const [coins, setCoins] = useState([]);
   const [allCoins, setAllCoins] = useState(loadFromLocal('allCoins') ?? []);
-  // const [allCoins, setAllCoins] = useState([], () => {
-  //   const localData = localStorage.getItem('allCoins');
-  //   return localData ? JSON.parse(localData) : [];
-  // });
 
   const [search, setSearch] = useState('');
   const [likedCoins, setLikedCoins] = useState(
@@ -27,44 +22,16 @@ function App() {
       'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
     )
       .then((result) => result.json())
-      .then((coins) =>
-        setCoins(
-          coins.map((coin) => {
-            return {
-              name: coin.name,
-              image: coin.image,
-              symbol: coin.symbol,
-              price: coin.current_price,
-              priceChange: coin.price_change_percentage_24h,
-              marketCap: coin.market_cap,
-              volume: coin.total_volume,
-              isFavorite: false,
-            };
-          })
-        )
-      )
+      .then((allCoins) => setAllCoins(allCoins))
       .catch((error) => console.error(error.message));
-    console.log(coins);
-  }, []);
 
-  useEffect(() => {
-    fetch(
-      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
-    )
-      .then((result) => result.json())
-      .then((allCoins) =>
-        setAllCoins(
-          allCoins.map((coin) => {
-            return {
-              // if (isFavorite = false || isFavorite === "")
-              ...coin,
-              isFavorite: false,
-            };
-          })
-        )
-      )
-      .catch((error) => console.error(error.message));
-    console.log(allCoins);
+    const updatedCoins = allCoins.map((coin) => {
+      return {
+        ...coin,
+        isFavorite: false,
+      };
+    });
+    setAllCoins(updatedCoins);
   }, []);
 
   useEffect(() => {
@@ -81,9 +48,9 @@ function App() {
   }
 
   function toggleFavorite(coinToToggle) {
-    const updatedCoinList = allCoins.map((name, isFavorite) => {
-      if (name === coinToToggle.name) {
-        isFavorite = !isFavorite;
+    const updatedCoinList = allCoins.map((eachCoin) => {
+      if (eachCoin.name === coinToToggle.name) {
+        eachCoin.isFavorite = !eachCoin.isFavorite;
       }
       return eachCoin;
     });

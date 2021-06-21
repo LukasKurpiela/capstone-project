@@ -27,11 +27,11 @@ const PortfolioBar = styled.div`
   background-color: #f8f8ff;
 `;
 
-const PortfoliobarHeading = styled.p`
+const PortfoliobarHeading = styled.span`
   margin: 5px 0;
   font-size: 12px;
 `;
-const PortfoliobarValue = styled.p`
+const PortfoliobarValue = styled.span`
   font-weight: bold;
   margin-bottom: 5px;
   font-size: 16px;

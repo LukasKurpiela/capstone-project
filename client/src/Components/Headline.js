@@ -20,11 +20,11 @@ const HeadlineWrapper = styled.h4`
   border-bottom: 1px solid #d7d7d7;
 `;
 
-const HeadlineTag = styled.p`
-  width: 40px;
+const HeadlineTag = styled.span`
+  width: 2.5rem;
 `;
 
-const HeadlineTagRight = styled.p`
-  width: 80px;
+const HeadlineTagRight = styled.span`
+  width: 5rem;
   text-align: right;
 `;
