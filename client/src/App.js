@@ -81,9 +81,9 @@ function App() {
   }
 
   function toggleFavorite(coinToToggle) {
-    const updatedCoinList = allCoins.map((eachCoin) => {
-      if (eachCoin.name === coinToToggle.name) {
-        eachCoin.isFavorite = !eachCoin.isFavorite;
+    const updatedCoinList = allCoins.map((name, isFavorite) => {
+      if (name === coinToToggle.name) {
+        isFavorite = !isFavorite;
       }
       return eachCoin;
     });
