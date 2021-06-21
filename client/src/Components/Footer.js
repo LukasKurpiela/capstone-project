@@ -10,15 +10,15 @@ export default function Footer({ isStatic }) {
     <footer>
       <NavWrapper isStatic={isStatic}>
         <NavIcons>
-          <NavLinkStyled exact to="/">
+          <NavLink exact to="/">
             <MarketsButton title="Home" role="img" />
-          </NavLinkStyled>
-          <NavLinkStyled to="/portfolio">
+          </NavLink>
+          <NavLink to="/portfolio">
             <PortfolioButton title="Portfolio" role="img" />
-          </NavLinkStyled>
-          <NavLinkStyled to="/news">
+          </NavLink>
+          <NavLink to="/news">
             <NewsButton title="News" role="img" />
-          </NavLinkStyled>
+          </NavLink>
         </NavIcons>
       </NavWrapper>
     </footer>
@@ -52,8 +52,6 @@ const NavIcons = styled.ul`
   z-index: 100;
   color: grey;
 `;
-
-const NavLinkStyled = styled(NavLink)``;
 
 const MarketsButton = styled(MarketsIcon)`
   height: auto;

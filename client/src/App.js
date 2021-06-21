@@ -1,71 +1,99 @@
 import { Route, Switch } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { loadFromLocal, saveToLocal } from './lib/localStorage';
 import styled from 'styled-components';
-import Coins from './pages/Coins';
-import Portfolio from './pages/Portfolio';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Coinpage from './pages/Coinpage';
+import Searchbar from './components/Searchbar';
+import Portfoliobar from './components/Portfoliobar';
+import Portfoliopage from './pages/Portfoliopage';
 
 function App() {
-  const [coins, setCoins] = useState([]);
+  const [allCoins, setAllCoins] = useState(loadFromLocal('allCoins') ?? []);
+
   const [search, setSearch] = useState('');
+  const [likedCoins, setLikedCoins] = useState(
+    loadFromLocal('favoriteCoins') ?? []
+  );
 
   useEffect(() => {
     fetch(
       'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
     )
       .then((result) => result.json())
-      .then((coins) => setCoins(coins))
+      .then((allCoins) => setAllCoins(allCoins))
       .catch((error) => console.error(error.message));
+
+    const updatedCoins = allCoins.map((coin) => {
+      return {
+        ...coin,
+        isFavorite: false,
+      };
+    });
+    setAllCoins(updatedCoins);
   }, []);
+
+  useEffect(() => {
+    saveToLocal('allCoins', allCoins);
+  }, [allCoins]);
+
+  useEffect(() => {
+    saveToLocal('favoriteCoins', likedCoins);
+  }, [likedCoins]);
+
+  function loadFavoriteCoin(coins, setFavorites) {
+    const selectedCoin = coins.filter((eachCoin) => eachCoin.isFavorite);
+    setFavorites(selectedCoin);
+  }
+
+  function toggleFavorite(coinToToggle) {
+    const updatedCoinList = allCoins.map((eachCoin) => {
+      if (eachCoin.name === coinToToggle.name) {
+        eachCoin.isFavorite = !eachCoin.isFavorite;
+      }
+      return eachCoin;
+    });
+    setAllCoins(updatedCoinList);
+    loadFavoriteCoin(allCoins, setLikedCoins);
+  }
 
   const handleChange = (e) => {
     setSearch(e.target.value);
   };
 
-  const filteredCoins = coins.filter((coin) =>
-    coin.name.toLowerCase().includes(search.toLowerCase())
+  const filteredCoins = allCoins.filter(
+    (coin) =>
+      coin.name.toLowerCase().includes(search.toLowerCase()) ||
+      coin.symbol.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <CoinApp>
+      <Header />
       <Switch>
         <Route exact path="/">
-          <Header search={search} handleChange={handleChange} />
           <main>
-            {filteredCoins.map((coin) => {
-              return (
-                <Coins
-                  key={coin.id}
-                  name={coin.name}
-                  image={coin.image}
-                  symbol={coin.symbol}
-                  marketCap={coin.market_cap}
-                  price={coin.current_price}
-                  priceChange={coin.price_change_percentage_24h}
-                  volume={coin.total_volume}
-                />
-              );
-            })}
+            <Searchbar
+              search={search}
+              handleChange={handleChange}
+              filteredCoins={filteredCoins}
+            />
+            <Coinpage
+              onToggleFavorite={toggleFavorite}
+              filteredCoins={filteredCoins}
+              allCoins={allCoins}
+            />
           </main>
         </Route>
         <Route path="/portfolio">
-          <Header search={search} handleChange={handleChange} />
           <main>
-            {filteredCoins.map((coin) => {
-              return (
-                <Portfolio
-                  key={coin.id}
-                  name={coin.name}
-                  image={coin.image}
-                  symbol={coin.symbol}
-                  marketCap={coin.market_cap}
-                  price={coin.current_price}
-                  priceChange={coin.price_change_percentage_24h}
-                  volume={coin.total_volume}
-                />
-              );
-            })}
+            <Portfoliobar />
+            <Portfoliopage
+              likedCoins={likedCoins}
+              onToggleFavorite={toggleFavorite}
+              filteredCoins={filteredCoins}
+            />
           </main>
         </Route>
         <Route path="/news"></Route>
