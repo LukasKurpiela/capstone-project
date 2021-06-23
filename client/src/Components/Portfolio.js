@@ -1,23 +1,45 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import { ReactComponent as StarNotFilled } from '../images/star-noFill-empty.svg';
 import { ReactComponent as StarFilled } from '../images/star-noFill-filled.svg';
 
-export default function Portfolio({ coin, onToggleFavorite }) {
+export default function Portfolio({
+  coin,
+  onToggleFavorite,
+  allCoins,
+  likedCoin,
+}) {
+  const history = useHistory();
   const { image, name, symbol } = coin;
   const { price_change_percentage_24h: priceChange, current_price: price } =
     coin;
+
+  function navigateToOverview() {
+    history.push('/portfolio/overview');
+  }
+
+  //
+  // const priceAllCoins = allCoins.map((coin) => {
+  //   return {
+  //     price: coin.current_price,
+  //     priceChange: coin.price_change_percentage_24h,
+  //   };
+  //   setlikedCoin([...likedCoin, coin]);
+  // });
+
+  //
 
   return (
     <CoinWrapper>
       <CoinRow>
         <CoinImage src={image} alt={name} />
-        <CoinNameWrapper>
+        <CoinNameWrapper onClick={navigateToOverview}>
           <CoinName>{name}</CoinName>
           <CoinSymbol>{symbol}</CoinSymbol>
         </CoinNameWrapper>
         <CoinData>
-          <PriceWrapper>
+          <PriceWrapper onClick={navigateToOverview}>
             <CoinPrice>${price.toFixed(2)}</CoinPrice>
             {priceChange < 0 ? (
               <PriceChangeNegative>
@@ -31,7 +53,7 @@ export default function Portfolio({ coin, onToggleFavorite }) {
           </PriceWrapper>
           <HoldingsWrapper>
             <CoinHoldingsTotal>$----.--</CoinHoldingsTotal>
-            <CoinHoldingsPerCoin>$--.--</CoinHoldingsPerCoin>
+            <CoinHoldingsPerCoin>--.--</CoinHoldingsPerCoin>
           </HoldingsWrapper>
         </CoinData>
         <span onClick={() => onToggleFavorite(coin)}>
@@ -58,13 +80,13 @@ const CoinRow = styled.div`
   height: 5.625rem;
   border-bottom: 1px solid #d7d7d7;
 
-  &:hover {
+  /* &:hover {
     background-color: #f8f8ff;
     box-shadow: 0px 1px 3px #87878a;
     border-radius: 5px;
     padding: 0 5px 0 5px;
   }
-  cursor: pointer;
+  cursor: pointer; */
 `;
 
 const CoinNameWrapper = styled.span`
@@ -73,12 +95,14 @@ const CoinNameWrapper = styled.span`
   text-align: left;
   justify-content: space-between;
   width: 100%;
+  cursor: pointer;
 `;
 
 const PriceWrapper = styled.span`
   display: flex;
   flex-direction: column;
   text-align: right;
+  cursor: pointer;
 `;
 
 const HoldingsWrapper = styled.span`

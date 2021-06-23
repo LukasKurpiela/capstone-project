@@ -8,30 +8,42 @@ import Coinpage from './pages/Coinpage';
 import Searchbar from './components/Searchbar';
 import Portfoliobar from './components/Portfoliobar';
 import Portfoliopage from './pages/Portfoliopage';
+import AddForm from './pages/AddForm';
+import PortfolioOverview from './pages/PortfolioOverview';
 
 function App() {
   const [allCoins, setAllCoins] = useState(loadFromLocal('allCoins') ?? []);
-
-  const [search, setSearch] = useState('');
   const [likedCoins, setLikedCoins] = useState(
     loadFromLocal('favoriteCoins') ?? []
   );
+  const [exchanges, setExchanges] = useState(loadFromLocal('exchanges') ?? []);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetch(
       'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
     )
       .then((result) => result.json())
-      .then((allCoins) => setAllCoins(allCoins))
+      .then((allCoins) => {
+        const updatedCoins = allCoins.map((coin) => {
+          console.log(coin);
+          return {
+            ...coin,
+            isFavorite: likedCoins.some(
+              (likedCoin) => likedCoin.id === coin.id
+            ),
+          };
+        });
+        setAllCoins(updatedCoins);
+      })
       .catch((error) => console.error(error.message));
+  }, []);
 
-    const updatedCoins = allCoins.map((coin) => {
-      return {
-        ...coin,
-        isFavorite: false,
-      };
-    });
-    setAllCoins(updatedCoins);
+  useEffect(() => {
+    fetch('https://api.coingecko.com/api/v3/exchanges')
+      .then((result) => result.json())
+      .then((exchangesFromApi) => setExchanges(exchangesFromApi))
+      .catch((error) => console.error(error));
   }, []);
 
   useEffect(() => {
@@ -42,7 +54,18 @@ function App() {
     saveToLocal('favoriteCoins', likedCoins);
   }, [likedCoins]);
 
+  useEffect(() => {
+    saveToLocal('exchanges', exchanges);
+  }, [exchanges]);
+
   function loadFavoriteCoin(coins, setFavorites) {
+    // const priceAllCoins = allCoins.map((coin) => {
+    //   return {
+    //     price: coin.current_price,
+    //     priceChange: coin.price_change_percentage_24h,
+    //   };
+    //   setFavorites([...likedCoins, priceAllCoins]);
+    // });
     const selectedCoin = coins.filter((eachCoin) => eachCoin.isFavorite);
     setFavorites(selectedCoin);
   }
@@ -57,6 +80,8 @@ function App() {
     setAllCoins(updatedCoinList);
     loadFavoriteCoin(allCoins, setLikedCoins);
   }
+
+  // function addToPortfolio ()
 
   const handleChange = (e) => {
     setSearch(e.target.value);
@@ -86,13 +111,42 @@ function App() {
             />
           </main>
         </Route>
-        <Route path="/portfolio">
+        <Route exact path="/portfolio">
           <main>
             <Portfoliobar />
             <Portfoliopage
               likedCoins={likedCoins}
               onToggleFavorite={toggleFavorite}
               filteredCoins={filteredCoins}
+              allCoins={allCoins}
+            />
+          </main>
+        </Route>
+        <Route path="/portfolio/overview">
+          <main>
+            <PortfolioOverview
+              exchanges={exchanges}
+              likedCoins={likedCoins}
+              onToggleFavorite={toggleFavorite}
+              filteredCoins={filteredCoins}
+              allCoins={allCoins}
+              // onAddCoin={addCoin}
+              // coinToEdit={editCoin}
+              // onUpdateAndSaveCoin={updateAndSaveCoin}
+            />
+          </main>
+        </Route>
+        <Route path="/portfolio/addform">
+          <main>
+            <AddForm
+              exchanges={exchanges}
+              likedCoins={likedCoins}
+              onToggleFavorite={toggleFavorite}
+              filteredCoins={filteredCoins}
+              allCoins={allCoins}
+              // onAddCoin={addCoin}
+              // coinToEdit={editCoin}
+              // onUpdateAndSaveCoin={updateAndSaveCoin}
             />
           </main>
         </Route>
