@@ -1,6 +1,7 @@
 import Portfolio from '../components/Portfolio';
 import Headline from '../components/Headline';
 import styled from 'styled-components/macro';
+import Footer from '../components/Footer';
 
 import { ReactComponent as PlusIcon } from '../images/plus.svg';
 
@@ -25,6 +26,7 @@ export default function Portfoliopage({
       })}
       {/* <AddButton isStatic={isStatic}></AddButton>
       <AddSign title="Plus" role="img" isStatic={isStatic} /> */}
+      <Footer />
     </>
   );
 }

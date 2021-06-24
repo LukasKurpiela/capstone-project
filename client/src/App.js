@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { loadFromLocal, saveToLocal } from './lib/localStorage';
 import styled from 'styled-components';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import Coinpage from './pages/Coinpage';
 import Searchbar from './components/Searchbar';
 import Portfoliobar from './components/Portfoliobar';
@@ -26,7 +25,6 @@ function App() {
       .then((result) => result.json())
       .then((allCoins) => {
         const updatedCoins = allCoins.map((coin) => {
-          console.log(coin);
           return {
             ...coin,
             isFavorite: likedCoins.some(
@@ -124,16 +122,21 @@ function App() {
         </Route>
         <Route path="/portfolio/overview">
           <main>
-            <PortfolioOverview
-              exchanges={exchanges}
-              likedCoins={likedCoins}
-              onToggleFavorite={toggleFavorite}
-              filteredCoins={filteredCoins}
-              allCoins={allCoins}
-              // onAddCoin={addCoin}
-              // coinToEdit={editCoin}
-              // onUpdateAndSaveCoin={updateAndSaveCoin}
-            />
+            {filteredCoins.map((coin) => {
+              return (
+                <PortfolioOverview
+                  exchanges={exchanges}
+                  likedCoins={likedCoins}
+                  onToggleFavorite={toggleFavorite}
+                  filteredCoins={filteredCoins}
+                  allCoins={allCoins}
+                  coin={coin}
+                  // onAddCoin={addCoin}
+                  // coinToEdit={editCoin}
+                  // onUpdateAndSaveCoin={updateAndSaveCoin}
+                />
+              );
+            })}
           </main>
         </Route>
         <Route path="/portfolio/addform">
@@ -152,7 +155,6 @@ function App() {
         </Route>
         <Route path="/news"></Route>
       </Switch>
-      <Footer />
     </CoinApp>
   );
 }
