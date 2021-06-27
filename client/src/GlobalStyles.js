@@ -22,12 +22,11 @@ body {
   font-family: 'Roboto', sans-serif;
   color: #1D1D1F;
   font-size: 14px;
+  margin-bottom: 6.25rem;
 }
 
 
 body, h1, h2, h3, h4, h5, h6, ol, ul, p {
-  margin: 0;
-  padding: 0;
   font-weight: normal;
 }
 `;

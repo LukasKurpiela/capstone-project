@@ -8,12 +8,15 @@ import Searchbar from './components/Searchbar';
 import Portfoliobar from './components/Portfoliobar';
 import Portfoliopage from './pages/Portfoliopage';
 import AddForm from './pages/AddForm';
-import PortfolioOverview from './pages/PortfolioOverview';
+import PortfolioOverview from './pages/CoinOverview';
 
 function App() {
   const [allCoins, setAllCoins] = useState(loadFromLocal('allCoins') ?? []);
   const [likedCoins, setLikedCoins] = useState(
     loadFromLocal('favoriteCoins') ?? []
+  );
+  const [portfolioCoins, setPortfolioCoins] = useState(
+    loadFromLocal('portfolioCoins') ?? []
   );
   const [exchanges, setExchanges] = useState(loadFromLocal('exchanges') ?? []);
   const [search, setSearch] = useState('');
@@ -56,14 +59,15 @@ function App() {
     saveToLocal('exchanges', exchanges);
   }, [exchanges]);
 
+  useEffect(() => {
+    saveToLocal('portfolioCoins', portfolioCoins);
+  }, [portfolioCoins]);
+
+  function addCoin(portfolioCoin) {
+    setPortfolioCoins([...portfolioCoins, portfolioCoin]);
+  }
+
   function loadFavoriteCoin(coins, setFavorites) {
-    // const priceAllCoins = allCoins.map((coin) => {
-    //   return {
-    //     price: coin.current_price,
-    //     priceChange: coin.price_change_percentage_24h,
-    //   };
-    //   setFavorites([...likedCoins, priceAllCoins]);
-    // });
     const selectedCoin = coins.filter((eachCoin) => eachCoin.isFavorite);
     setFavorites(selectedCoin);
   }
@@ -78,8 +82,6 @@ function App() {
     setAllCoins(updatedCoinList);
     loadFavoriteCoin(allCoins, setLikedCoins);
   }
-
-  // function addToPortfolio ()
 
   const handleChange = (e) => {
     setSearch(e.target.value);
@@ -117,26 +119,17 @@ function App() {
               onToggleFavorite={toggleFavorite}
               filteredCoins={filteredCoins}
               allCoins={allCoins}
+              portfolioCoins={portfolioCoins}
             />
           </main>
         </Route>
         <Route path="/portfolio/overview">
           <main>
-            {filteredCoins.map((coin) => {
-              return (
-                <PortfolioOverview
-                  exchanges={exchanges}
-                  likedCoins={likedCoins}
-                  onToggleFavorite={toggleFavorite}
-                  filteredCoins={filteredCoins}
-                  allCoins={allCoins}
-                  coin={coin}
-                  // onAddCoin={addCoin}
-                  // coinToEdit={editCoin}
-                  // onUpdateAndSaveCoin={updateAndSaveCoin}
-                />
-              );
-            })}
+            <PortfolioOverview
+              exchanges={exchanges}
+              portfolioCoins={portfolioCoins}
+              allCoins={allCoins}
+            />
           </main>
         </Route>
         <Route path="/portfolio/addform">
@@ -147,9 +140,8 @@ function App() {
               onToggleFavorite={toggleFavorite}
               filteredCoins={filteredCoins}
               allCoins={allCoins}
-              // onAddCoin={addCoin}
-              // coinToEdit={editCoin}
-              // onUpdateAndSaveCoin={updateAndSaveCoin}
+              onAddCoin={addCoin}
+              portfolioCoins={portfolioCoins}
             />
           </main>
         </Route>

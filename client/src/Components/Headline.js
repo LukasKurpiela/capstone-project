@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 
-export default function Headline({ Headlinetext }) {
+export default function Headline({
+  Headlinetext1,
+  Headlinetext2,
+  Headlinetext3,
+}) {
   return (
     <HeadlineWrapper>
-      <HeadlineTag>Coin</HeadlineTag>
-      <HeadlineTag>Price</HeadlineTag>
-      <HeadlineTagRight>{Headlinetext}</HeadlineTagRight>
+      <HeadlineTag>{Headlinetext1}</HeadlineTag>
+      <HeadlineTag>{Headlinetext2}</HeadlineTag>
+      <HeadlineTagRight>{Headlinetext3}</HeadlineTagRight>
     </HeadlineWrapper>
   );
 }

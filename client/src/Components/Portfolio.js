@@ -4,31 +4,20 @@ import { useHistory } from 'react-router-dom';
 import { ReactComponent as StarNotFilled } from '../images/star-noFill-empty.svg';
 import { ReactComponent as StarFilled } from '../images/star-noFill-filled.svg';
 
-export default function Portfolio({
-  coin,
-  onToggleFavorite,
-  allCoins,
-  likedCoin,
-}) {
+export default function Portfolio({ coin, onToggleFavorite, allCoins }) {
   const history = useHistory();
-  const { image, name, symbol } = coin;
+
+  const updatedCoin = allCoins.find(
+    (favoriteCoin) => favoriteCoin.name === coin.name
+  );
+
+  const { image, name, symbol } = updatedCoin;
   const { price_change_percentage_24h: priceChange, current_price: price } =
-    coin;
+    updatedCoin;
 
   function navigateToOverview() {
-    history.push('/portfolio/overview');
+    history.push('/portfolio/overview', updatedCoin);
   }
-
-  //
-  // const priceAllCoins = allCoins.map((coin) => {
-  //   return {
-  //     price: coin.current_price,
-  //     priceChange: coin.price_change_percentage_24h,
-  //   };
-  //   setlikedCoin([...likedCoin, coin]);
-  // });
-
-  //
 
   return (
     <CoinWrapper>
@@ -52,8 +41,8 @@ export default function Portfolio({
             )}
           </PriceWrapper>
           <HoldingsWrapper>
-            <CoinHoldingsTotal>$----.--</CoinHoldingsTotal>
-            <CoinHoldingsPerCoin>--.--</CoinHoldingsPerCoin>
+            <CoinHoldingsTotal>${price}</CoinHoldingsTotal>
+            <CoinHoldingsPerCoin>{price}</CoinHoldingsPerCoin>
           </HoldingsWrapper>
         </CoinData>
         <span onClick={() => onToggleFavorite(coin)}>
@@ -79,14 +68,6 @@ const CoinRow = styled.div`
   align-items: center;
   height: 5.625rem;
   border-bottom: 1px solid #d7d7d7;
-
-  /* &:hover {
-    background-color: #f8f8ff;
-    box-shadow: 0px 1px 3px #87878a;
-    border-radius: 5px;
-    padding: 0 5px 0 5px;
-  }
-  cursor: pointer; */
 `;
 
 const CoinNameWrapper = styled.span`

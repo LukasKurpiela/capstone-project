@@ -1,23 +1,19 @@
 import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { loadFromLocal, saveToLocal } from '../lib/localStorage';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import Footerbutton from '../components/Footerbutton';
 import { ReactComponent as Close } from '../images/close.svg';
 import validateEntry from '../lib/validation';
 
-export default function AddForm({
-  // onAddCoin,
-  coinToEdit,
-  onUpdateAndSaveCoin,
-  filteredCoins,
-  likedCoins,
-  coin,
-  allCoins,
-  exchanges,
-}) {
+export default function AddForm({ onAddCoin, exchanges, isStatic }) {
+  const history = useHistory();
+  const clickedCoin = history.location.state;
+
+  const { name } = clickedCoin;
+
   const initialCoinState = {
-    buyOrSell: 'buy',
+    name: name,
+    buyOrSell: 'Buy',
     exchange: '',
     price: '',
     quantity: '',
@@ -25,17 +21,12 @@ export default function AddForm({
     note: '',
   };
 
-  const history = useHistory();
-
   function navigateToOverview() {
-    history.push('/portfolio/overview');
+    history.push('/portfolio/overview', clickedCoin);
   }
 
-  // const [portfolioCoin, setportfolioCoin] = useState(
-  //   coinToEdit ?? initialCoinState
-  // );
   const [portfolioCoin, setportfolioCoin] = useState(
-    loadFromLocal('portfolioCoin') ?? [initialCoinState]
+    loadFromLocal('portFolioCoin') ?? initialCoinState
   );
   const [isError, setIsError] = useState(false);
 
@@ -54,7 +45,7 @@ export default function AddForm({
     event.preventDefault();
 
     if (validateEntry(portfolioCoin)) {
-      // onAddCoin(portfolioCoin);
+      onAddCoin(portfolioCoin);
       setportfolioCoin(initialCoinState);
       setIsError(false);
     } else {
@@ -63,113 +54,114 @@ export default function AddForm({
     }
   }
 
-  {
-    portfolioCoin.map((portfolioCoin) => {
-      return (
-        <Form onSubmit={handleForm}>
-          <Headline>
-            <h2>Add Transaction</h2>
-            <CloseIcon
-              type="reset"
-              title="Close"
-              role="img"
-              onClick={setportfolioCoin}
-            />
-          </Headline>
-          <BuyOrSell>
-            {/* <label htmlFor="BuyOrSell"></label> */}
-            <input
-              isPrimary
-              type="radio"
-              value="buy"
-              name="buyOrSell"
-              onChange={updateCoin}
-              checked={portfolioCoin.buyOrSell === 'buy'}
-            />{' '}
-            Buy
-            <input
-              type="radio"
-              value="sell"
-              name="buyOrSell"
-              onChange={updateCoin}
-              checked={portfolioCoin.buyOrSell === 'sell'}
-            />{' '}
-            Sell
-          </BuyOrSell>
-          <Inputfield>
-            <label htmlFor="price">Price per Coin*</label>
-            <input
-              type="text"
-              name="price"
-              onChange={updateCoin}
-              value={portfolioCoin.price}
-              placeholder="In USD"
-              // placeholder={allCoins.current_price}
-            />
-          </Inputfield>
-          <Inputfield>
-            <label htmlFor="quantity">Quantity*</label>
-            <input
-              type="text"
-              name="quantity"
-              onChange={updateCoin}
-              value={portfolioCoin.quantity}
-              placeholder="0"
-            />
-          </Inputfield>
-          <Inputfield>
-            <label htmlFor="exchange">Exchange</label>
-            <select
-              id="exchange"
-              name="exchange"
-              onChange={updateCoin}
-              value={portfolioCoin.exchange}
-              placeholder="Please select..."
-            >
-              <option value="Please select...">Please select...</option>
-              {exchanges.map((exchange) => (
-                <option value={exchange.name}>{exchange.name}</option>
-              ))}
-            </select>
-          </Inputfield>
-          <Inputfield>
-            <label htmlFor="date">Date</label>
-            <input
-              type="date"
-              name="date"
-              onChange={updateCoin}
-              value={portfolioCoin.date}
-            />
-          </Inputfield>
-          <Inputfield>
-            <label htmlFor="note">Note</label>
-            <input
-              type="text"
-              name="note"
-              onChange={updateCoin}
-              value={portfolioCoin.note}
-              placeholder="Tap to add a note"
-            />
-          </Inputfield>
-          {isError && (
-            <ErrorBox isError={isError}>
-              Missing entries. Please check your input.
-            </ErrorBox>
-          )}
-          <Footerbutton />
-        </Form>
-      );
-    });
-  }
+  return (
+    <Form onSubmit={handleForm}>
+      <HeadlineWrapper>
+        <HeadlineName>{name} Add Transaction</HeadlineName>
+        <CloseIcon title="Close" role="img" onClick={navigateToOverview} />
+      </HeadlineWrapper>
+      <BuyOrSell>
+        <label htmlFor="buyOrSell"></label>
+        <input
+          isPrimary
+          type="radio"
+          value="Buy"
+          name="buyOrSell"
+          onChange={updateCoin}
+          checked={portfolioCoin.buyOrSell === 'Buy'}
+        />{' '}
+        Buy
+        <input
+          type="radio"
+          value="Sell"
+          name="buyOrSell"
+          onChange={updateCoin}
+          checked={portfolioCoin.buyOrSell === 'Sell'}
+        />{' '}
+        Sell
+      </BuyOrSell>
+      <Inputfield>
+        <label htmlFor="price">Price per Coin*</label>
+        <input
+          type="text"
+          name="price"
+          onChange={updateCoin}
+          value={portfolioCoin.price}
+          placeholder="In USD"
+        />
+      </Inputfield>
+      <Inputfield>
+        <label htmlFor="quantity">Quantity*</label>
+        <input
+          type="text"
+          name="quantity"
+          onChange={updateCoin}
+          value={portfolioCoin.quantity}
+          placeholder="0"
+        />
+      </Inputfield>
+      <Inputfield>
+        <label htmlFor="exchange">Exchange</label>
+        <select
+          id="exchange"
+          name="exchange"
+          onChange={updateCoin}
+          value={portfolioCoin.exchange}
+          placeholder="Please select..."
+        >
+          <option value="Please select...">Please select...</option>
+          {exchanges.map((exchange) => (
+            <option value={exchange.name}>{exchange.name}</option>
+          ))}
+        </select>
+      </Inputfield>
+      <Inputfield>
+        <label htmlFor="date">Date</label>
+        <input
+          type="date"
+          name="date"
+          onChange={updateCoin}
+          value={portfolioCoin.date}
+        />
+      </Inputfield>
+      <Inputfield>
+        <label htmlFor="note">Note</label>
+        <input
+          type="text"
+          name="note"
+          onChange={updateCoin}
+          value={portfolioCoin.note}
+          placeholder="Tap to add a note"
+        />
+      </Inputfield>
+      {isError && (
+        <ErrorBox isError={isError}>
+          Missing or wrong entries. Please check your input.
+        </ErrorBox>
+      )}
+      <NavWrapper isStatic={isStatic}>
+        <NavBox>
+          <Button>Add Transaction</Button>
+          {navigateToOverview}
+        </NavBox>
+      </NavWrapper>
+    </Form>
+  );
 }
 
-const Headline = styled.div`
+const HeadlineWrapper = styled.div`
   padding-bottom: 1rem;
   display: flex;
   justify-content: center;
   font-weight: bold;
   margin-top: 110px;
+  padding-bottom: 10px;
   position: relative;
+`;
+
+const HeadlineName = styled.h2`
+  padding: 0;
+  margin: 0;
 `;
 
 const CloseIcon = styled(Close)`
@@ -195,7 +187,8 @@ const Form = styled.form`
 
 const BuyOrSell = styled.section`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding-right: 2.5rem;
   gap: 1rem;
   font-weight: bold;
 `;
@@ -205,6 +198,8 @@ const ErrorBox = styled.div`
   color: hsl(340, 80%, 80%);
   padding: 1rem;
   border-radius: 0.5rem;
+  display: flex;
+  text-align: center;
 `;
 
 const Inputfield = styled.section`
@@ -212,14 +207,44 @@ const Inputfield = styled.section`
   justify-content: space-between;
 `;
 
-// const ErrorBox = styled.div`
-//   background: hsl(340, 60%, 50%);
-//   color: hsl(340, 95%, 95%);
-//   padding: ${(props) => (props.isError ? '1.2rem' : 0)};
-//   border-radius: 0.5rem;
-//   opacity: ${(props) => (props.isError ? 1 : 0)};
-//   max-height: ${(props) => (props.isError ? '100%' : '1px')};
-//   transition: all 1s ease-in-out;
-//   font-size: ${(props) => (props.isError ? '1rem' : '1px')};
-//   font-weight: bold;
-// `;
+const NavWrapper = styled.nav`
+  padding-bottom: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  background-color: white;
+  margin-top: 0;
+`;
+
+const NavBox = styled.ul`
+  background-color: #f8f8ff;
+  height: 60px;
+  width: 350px;
+  box-shadow: 0px 1px 3px #87878a;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  list-style: none;
+  z-index: 100;
+  color: grey;
+  padding: 0;
+  margin-top: 0;
+`;
+
+const Button = styled.button`
+  font-weight: bold;
+  padding: 0.75rem 2rem;
+  width: 15rem;
+  margin: auto;
+  border: solid 1px;
+  border-radius: 0.4rem;
+  background: #22e006;
+  cursor: pointer;
+`;

@@ -17,7 +17,6 @@ export default function Footerbutton({ isStatic }) {
       <NavWrapper isStatic={isStatic}>
         <NavBox>
           <Button onClick={navigateToForm}>Add Transaction</Button>
-          {/* <Button onClick={navigateToOverview}>Save</Button> */}
         </NavBox>
       </NavWrapper>
     </footer>
