@@ -15,16 +15,16 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
     (historyCoin) => historyCoin.name === clickedCoin.name
   );
 
-  const {
-    buyOrSell: buyOrSell,
-    date: date,
-    exchange: exchange,
-    symbol: symbol,
-    name: name,
-    note: note,
-    price: price,
-    quantity: quantity,
-  } = historyCoins;
+  // const {
+  // buyOrSell: buyOrSell,
+  // date: date,
+  // exchange: exchange,
+  // symbol: symbol,
+  // name: name,
+  // note: note,
+  // price: price,
+  // quantity: quantity,
+  // } = historyCoins;
 
   function navigateToForm() {
     history.push('/portfolio/addform', clickedCoin);
@@ -37,6 +37,7 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
   return (
     <>
       <HeadlineWrapper>
+        <CoinImage src={clickedCoin.image} alt={clickedCoin.name} />
         <HeadlineName>{clickedCoin.name} History</HeadlineName>
         <CloseIcon title="Close" role="img" onClick={navigateToPortfolio} />
       </HeadlineWrapper>
@@ -61,17 +62,18 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
                 </ExchangeWrapper>
                 <CoinData>
                   <PriceWrapper>
-                    <CoinPrice>${parseInt(coin.price).toFixed(2)}</CoinPrice>
+                    <CoinPrice>${parseFloat(coin.price).toFixed(2)}</CoinPrice>
                     <BuyOrSell>{coin.buyOrSell}</BuyOrSell>
                   </PriceWrapper>
                   <HoldingsWrapper>
                     {coin.buyOrSell === 'buy' ? (
                       <HoldingsBuy>
-                        ${parseInt(coin.price * coin.quantity).toFixed(2)}
+                        ${parseFloat(coin.price * coin.quantity).toFixed(2)}
                       </HoldingsBuy>
                     ) : (
                       <HoldingsSell>
-                        ${parseInt(coin.price * coin.quantity).toFixed(2)}
+                        $
+                        {parseFloat(coin.price * -1 * coin.quantity).toFixed(2)}
                       </HoldingsSell>
                     )}
                     {coin.buyOrSell === 'buy' ? (
@@ -114,13 +116,19 @@ const HeadlineWrapper = styled.div`
   width: 346px;
 `;
 
+const CoinImage = styled.img`
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: 0.625rem;
+`;
+
 const HeadlineName = styled.h2`
   padding: 0;
   margin: 0;
 `;
 
 const CloseIcon = styled(Close)`
-  left: 15rem;
+  left: 16.9rem;
   top: 0.15rem;
   height: 1.2rem;
   width: 1.2rem;
@@ -157,13 +165,13 @@ const CoinRow = styled.div`
   border-bottom: 1px solid #d7d7d7;
 `;
 
-const NoteRow = styled.div`
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  height: 1.25rem;
-  border-bottom: 1px solid #d7d7d7;
-`;
+// const NoteRow = styled.div`
+//   display: flex;
+//   justify-content: start;
+//   align-items: center;
+//   height: 1.25rem;
+//   border-bottom: 1px solid #d7d7d7;
+// `;
 
 const ExchangeWrapper = styled.span`
   display: flex;

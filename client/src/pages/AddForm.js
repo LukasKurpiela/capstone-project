@@ -9,11 +9,12 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
   const history = useHistory();
   const clickedCoin = history.location.state;
 
-  const { name, symbol } = clickedCoin;
+  const { name, symbol, image } = clickedCoin;
 
   const initialCoinState = {
     name: name,
     symbol: symbol,
+    image: image,
     buyOrSell: 'buy',
     exchange: '',
     price: '',
@@ -58,7 +59,8 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
   return (
     <Form onSubmit={handleForm}>
       <HeadlineWrapper>
-        <HeadlineName>{name} Add Transaction</HeadlineName>
+        <CoinImage src={image} alt={name} />
+        <HeadlineName>{name} - Add Transaction</HeadlineName>
         <CloseIcon title="Close" role="img" onClick={navigateToOverview} />
       </HeadlineWrapper>
       <BuyOrSell>
@@ -153,11 +155,17 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
 const HeadlineWrapper = styled.div`
   padding-bottom: 1rem;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   font-weight: bold;
   margin-top: 110px;
   padding-bottom: 10px;
   position: relative;
+`;
+
+const CoinImage = styled.img`
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: 0.625rem;
 `;
 
 const HeadlineName = styled.h2`
@@ -166,7 +174,7 @@ const HeadlineName = styled.h2`
 `;
 
 const CloseIcon = styled(Close)`
-  left: 15rem;
+  left: 16rem;
   top: 0.15rem;
   height: 1.2rem;
   width: 1.2rem;
