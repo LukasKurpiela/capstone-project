@@ -37,6 +37,7 @@ const NavWrapper = styled.nav`
   left: 0;
   z-index: 100;
   background-color: white;
+  margin-top: 0;
 `;
 
 const NavIcons = styled.ul`
@@ -51,6 +52,8 @@ const NavIcons = styled.ul`
   list-style: none;
   z-index: 100;
   color: grey;
+  padding: 0;
+  margin-top: 0;
 `;
 
 const MarketsButton = styled(MarketsIcon)`
