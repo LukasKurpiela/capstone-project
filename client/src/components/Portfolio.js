@@ -40,9 +40,13 @@ export default function Portfolio({ coin, onToggleFavorite, allCoins }) {
               </PriceChangePositive>
             )}
           </PriceWrapper>
-          <HoldingsWrapper>
-            <CoinHoldingsTotal>${price}</CoinHoldingsTotal>
-            <CoinHoldingsPerCoin>{price}</CoinHoldingsPerCoin>
+          <HoldingsWrapper onClick={navigateToOverview}>
+            <CoinHoldingsTotal>
+              ${parseFloat(price).toFixed(2)}
+            </CoinHoldingsTotal>
+            <CoinHoldingsPerCoin>
+              {parseFloat(price).toFixed(2)}
+            </CoinHoldingsPerCoin>
           </HoldingsWrapper>
         </CoinData>
         <span onClick={() => onToggleFavorite(coin)}>
@@ -90,6 +94,7 @@ const HoldingsWrapper = styled.span`
   display: flex;
   flex-direction: column;
   text-align: right;
+  cursor: pointer;
 `;
 
 const CoinImage = styled.img`
