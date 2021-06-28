@@ -9,11 +9,12 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
   const history = useHistory();
   const clickedCoin = history.location.state;
 
-  const { name } = clickedCoin;
+  const { name, symbol } = clickedCoin;
 
   const initialCoinState = {
     name: name,
-    buyOrSell: 'Buy',
+    symbol: symbol,
+    buyOrSell: 'buy',
     exchange: '',
     price: '',
     quantity: '',
@@ -65,18 +66,18 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
         <input
           isPrimary
           type="radio"
-          value="Buy"
+          value="buy"
           name="buyOrSell"
           onChange={updateCoin}
-          checked={portfolioCoin.buyOrSell === 'Buy'}
+          checked={portfolioCoin.buyOrSell === 'buy'}
         />{' '}
         Buy
         <input
           type="radio"
-          value="Sell"
+          value="sell"
           name="buyOrSell"
           onChange={updateCoin}
-          checked={portfolioCoin.buyOrSell === 'Sell'}
+          checked={portfolioCoin.buyOrSell === 'sell'}
         />{' '}
         Sell
       </BuyOrSell>

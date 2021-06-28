@@ -19,6 +19,7 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
     buyOrSell: buyOrSell,
     date: date,
     exchange: exchange,
+    symbol: symbol,
     name: name,
     note: note,
     price: price,
@@ -36,7 +37,7 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
   return (
     <>
       <HeadlineWrapper>
-        <HeadlineName>{name} History</HeadlineName>
+        <HeadlineName>{clickedCoin.name} History</HeadlineName>
         <CloseIcon title="Close" role="img" onClick={navigateToPortfolio} />
       </HeadlineWrapper>
       <Headline
@@ -49,7 +50,7 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
           <>
             <CoinWrapper>
               <CoinRow>
-                {coin.buyOrSell === 'Buy' ? (
+                {coin.buyOrSell === 'buy' ? (
                   <BuyImage title="BuyOrSell" role="img" />
                 ) : (
                   <SellImage title="BuyOrSell" role="img" />
@@ -60,19 +61,27 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
                 </ExchangeWrapper>
                 <CoinData>
                   <PriceWrapper>
-                    <CoinPrice>${coin.price}</CoinPrice>
+                    <CoinPrice>${parseInt(coin.price).toFixed(2)}</CoinPrice>
                     <BuyOrSell>{coin.buyOrSell}</BuyOrSell>
                   </PriceWrapper>
                   <HoldingsWrapper>
-                    {coin.buyOrSell === 'Buy' ? (
-                      <HoldingsBuy>${coin.price * coin.quantity}</HoldingsBuy>
+                    {coin.buyOrSell === 'buy' ? (
+                      <HoldingsBuy>
+                        ${parseInt(coin.price * coin.quantity).toFixed(2)}
+                      </HoldingsBuy>
                     ) : (
-                      <HoldingsSell>{coin.price * -coin.quantity}</HoldingsSell>
+                      <HoldingsSell>
+                        ${parseInt(coin.price * coin.quantity).toFixed(2)}
+                      </HoldingsSell>
                     )}
-                    {coin.buyOrSell === 'Buy' ? (
-                      <QuantityBuy>{coin.quantity}</QuantityBuy>
+                    {coin.buyOrSell === 'buy' ? (
+                      <QuantityBuy>
+                        {coin.quantity} {coin.symbol}
+                      </QuantityBuy>
                     ) : (
-                      <QuantitySell>{coin.quantity * -1}</QuantitySell>
+                      <QuantitySell>
+                        {coin.quantity * -1} {coin.symbol}
+                      </QuantitySell>
                     )}
                   </HoldingsWrapper>
                 </CoinData>
@@ -220,11 +229,13 @@ const HoldingsSell = styled.span`
 const QuantityBuy = styled.span`
   width: 5rem;
   color: green;
+  text-transform: uppercase;
 `;
 
 const QuantitySell = styled.span`
   width: 5rem;
   color: red;
+  text-transform: uppercase;
 `;
 
 const TrashCanImage = styled(TrashCan)`

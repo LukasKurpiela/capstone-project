@@ -1,6 +1,5 @@
 import Portfolio from '../components/Portfolio';
 import Headline from '../components/Headline';
-// import styled from 'styled-components/macro';
 import Footer from '../components/Footer';
 
 export default function Portfoliopage({
