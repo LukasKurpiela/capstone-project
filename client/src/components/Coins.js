@@ -31,8 +31,12 @@ export default function Coins({ coin, onToggleFavorite }) {
             )}
           </PriceWrapper>
           <MarketCapWrapper>
-            <CoinMarketCap>${marketCap.toLocaleString()}</CoinMarketCap>
-            <CoinVolume>${volume.toLocaleString()}</CoinVolume>
+            <CoinMarketCap>
+              ${parseInt(marketCap / 1000).toLocaleString()} T
+            </CoinMarketCap>
+            <CoinVolume>
+              ${parseInt(volume / 1000).toLocaleString()} T
+            </CoinVolume>
           </MarketCapWrapper>
         </CoinData>
         <span onClick={() => onToggleFavorite(coin)}>

@@ -72,8 +72,8 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
                       </HoldingsBuy>
                     ) : (
                       <HoldingsSell>
-                        $
-                        {parseFloat(coin.price * -1 * coin.quantity).toFixed(2)}
+                        -$
+                        {parseFloat(coin.price * coin.quantity).toFixed(2)}
                       </HoldingsSell>
                     )}
                     {coin.buyOrSell === 'buy' ? (
