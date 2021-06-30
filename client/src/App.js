@@ -55,7 +55,6 @@ function App() {
       .then((result) => result.json())
       .then((newsFromApi) => {
         setNews(newsFromApi);
-        // .catch((error) => console.error(error));
       });
   }, []);
 

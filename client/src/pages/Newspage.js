@@ -1,11 +1,5 @@
 import styled from 'styled-components';
 import Footer from '../components/Footer';
-// import moment from 'react-moment';
-
-// function calculateDate (time) {
-//   const t = new Date(time * 1000);
-//   const formatted = ('0' + t.getHours()).slice(-2) + ':' + ('0' + t.getMinutes()).slice(-2);
-// }
 
 export default function Newspage({ news }) {
   return (
