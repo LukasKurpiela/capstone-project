@@ -54,10 +54,12 @@ function App() {
     fetch('/apiNews')
       .then((result) => result.json())
       .then((newsFromApi) => {
-        setNews(newsFromApi).catch((error) => console.error(error));
-        // console.log(newsFromApi);
+        setNews(newsFromApi);
+        // .catch((error) => console.error(error));
       });
   }, []);
+
+  console.log(news);
 
   useEffect(() => {
     saveToLocal('allCoins', allCoins);

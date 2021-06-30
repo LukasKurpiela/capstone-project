@@ -100,7 +100,7 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
           name="quantity"
           onChange={updateCoin}
           value={portfolioCoin.quantity}
-          placeholder="0"
+          placeholder='e.g. "0.25"'
         />
       </Inputfield>
       <Inputfield>

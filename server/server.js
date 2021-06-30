@@ -22,8 +22,9 @@ server.get('/apiNews', (req, res) => {
   fetch(
     `https://min-api.cryptocompare.com/data/v2/news/?lang=EN&api_key=${api_key}`
   )
-    .then((results) => results.json())
-    .then((data) => res.json(data.articles.slice(0, 20)));
+    .then((result) => result.json())
+    .then((data) => res.json(data.Data))
+    .catch((error) => res.json(error));
 });
 
 server.use(express.static(path.join(__dirname, '../../client/build')));
