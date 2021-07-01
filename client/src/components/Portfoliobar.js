@@ -39,7 +39,7 @@ export default function Portfoliobar({ portfolioCoins, likedCoins }) {
 }
 
 const PortfolioBar = styled.div`
-  margin: 30px 14px 30px 14px;
+  margin: 26px 14px 30px 19px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;

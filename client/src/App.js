@@ -113,7 +113,7 @@ function App() {
   );
 
   return (
-    <>
+    <CoinApp>
       <Header />
       <Switch>
         <Route exact path="/">
@@ -174,8 +174,14 @@ function App() {
           </main>
         </Route>
       </Switch>
-    </>
+    </CoinApp>
   );
 }
 
 export default App;
+
+const CoinApp = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

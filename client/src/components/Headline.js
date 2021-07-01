@@ -15,8 +15,8 @@ export default function Headline({
 }
 
 const HeadlineWrapper = styled.h4`
-  width: 328px;
-  margin: 90px 0px 10px 15px;
+  width: 329px;
+  margin: 90px 15px 10px 8px;
   padding-bottom: 10px;
   display: flex;
   justify-content: space-evenly;

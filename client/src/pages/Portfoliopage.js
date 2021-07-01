@@ -35,7 +35,7 @@ export default function Portfoliopage({
 }
 
 const PortfolioWrapperStatic = styled.div`
-  padding-top: 90px;
+  padding-top: 116px;
   width: 100%;
   background-color: white;
   z-index: 99;
@@ -43,5 +43,5 @@ const PortfolioWrapperStatic = styled.div`
 `;
 
 const PortfolioBlockWrapper = styled.div`
-  margin-top: 90px;
+  margin-top: 116px;
 `;
