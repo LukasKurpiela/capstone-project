@@ -4,16 +4,67 @@ import { useHistory } from 'react-router-dom';
 import { ReactComponent as StarNotFilled } from '../images/star-noFill-empty.svg';
 import { ReactComponent as StarFilled } from '../images/star-noFill-filled.svg';
 
-export default function Portfolio({ coin, onToggleFavorite, allCoins }) {
+export default function Portfolio({
+  coin,
+  onToggleFavorite,
+  allCoins,
+  portfolioCoins,
+}) {
   const history = useHistory();
 
   const updatedCoin = allCoins.find(
     (favoriteCoin) => favoriteCoin.name === coin.name
   );
 
+  const historyCoins = portfolioCoins.filter(
+    (historyCoin) => historyCoin.name === coin.name
+  );
+
   const { image, name, symbol } = updatedCoin;
   const { price_change_percentage_24h: priceChange, current_price: price } =
     updatedCoin;
+
+  function calculateHoldingsPerCoin(historyCoins) {
+    const boughtCoinsObject = historyCoins.filter(
+      (boughtCoin) => boughtCoin.buyOrSell === 'buy'
+    );
+    const totalSumBought = boughtCoinsObject.reduce(
+      (a, b) => parseFloat(a) + parseFloat(b.price) * parseFloat(b.quantity),
+      0
+    );
+
+    const soldCoinsObject = historyCoins.filter(
+      (boughtCoin) => boughtCoin.buyOrSell === 'sell'
+    );
+    const totalSumSold = soldCoinsObject.reduce(
+      (a, b) => parseFloat(a) + parseFloat(b.price) * parseFloat(b.quantity),
+      0
+    );
+    const totalValue = totalSumBought - totalSumSold;
+    return totalValue;
+  }
+
+  function calculateQuantityPerCoin(historyCoins) {
+    const boughtCoinsObject = historyCoins.filter(
+      (boughtCoin) => boughtCoin.buyOrSell === 'buy'
+    );
+    const totalQuantityBought = boughtCoinsObject.reduce(
+      (a, b) => parseFloat(a) + parseFloat(b.quantity),
+      0
+    );
+
+    const soldCoinsObject = historyCoins.filter(
+      (boughtCoin) => boughtCoin.buyOrSell === 'sell'
+    );
+    const totalQuantitySold = soldCoinsObject.reduce(
+      (a, b) => parseFloat(a) + parseFloat(b.quantity),
+      0
+    );
+    const totalQuantity = totalQuantityBought - totalQuantitySold;
+    console.log(boughtCoinsObject);
+    console.log(soldCoinsObject);
+    return totalQuantity;
+  }
 
   function navigateToOverview() {
     history.push('/portfolio/overview', updatedCoin);
@@ -47,19 +98,23 @@ export default function Portfolio({ coin, onToggleFavorite, allCoins }) {
             )}
           </PriceWrapper>
           <HoldingsWrapper onClick={navigateToOverview}>
-            <CoinHoldingsTotal>
-              $
-              {price.toLocaleString('de-DE', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </CoinHoldingsTotal>
             <CoinHoldingsPerCoin>
-              {price.toLocaleString('de-DE', {
+              {calculateHoldingsPerCoin(historyCoins).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}
+              {/* .toFixed(2)
+                .replace('.', ',')
+                .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')} */}
             </CoinHoldingsPerCoin>
+            <CoinQuantityPerCoin>
+              {calculateQuantityPerCoin(historyCoins).toLocaleString({
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </CoinQuantityPerCoin>
           </HoldingsWrapper>
         </CoinData>
         <span onClick={() => onToggleFavorite(coin)}>
@@ -147,13 +202,13 @@ const PriceChangePositive = styled.span`
   color: green;
 `;
 
-const CoinHoldingsTotal = styled.span`
+const CoinHoldingsPerCoin = styled.span`
   width: 7.8rem;
   padding-bottom: 10px;
   font-weight: bold;
 `;
 
-const CoinHoldingsPerCoin = styled.span`
+const CoinQuantityPerCoin = styled.span`
   width: 7.8rem;
 `;
 

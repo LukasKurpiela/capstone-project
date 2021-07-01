@@ -7,7 +7,11 @@ import { ReactComponent as PlusIcon } from '../images/plus.svg';
 import { ReactComponent as BuySellIcon } from '../images/coins.svg';
 import { ReactComponent as TrashCan } from '../images/trashcan.svg';
 
-export default function PortfolioOverview({ portfolioCoins, isStatic }) {
+export default function PortfolioOverview({
+  portfolioCoins,
+  isStatic,
+  onDeleteCoinHistory,
+}) {
   const history = useHistory();
   const clickedCoin = history.location.state;
 
@@ -15,27 +19,38 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
     (historyCoin) => historyCoin.name === clickedCoin.name
   );
 
-  // const {
-  // buyOrSell: buyOrSell,
-  // date: date,
-  // exchange: exchange,
-  // symbol: symbol,
-  // name: name,
-  // note: note,
-  // price: price,
-  // quantity: quantity,
-  // } = historyCoins;
+  console.log(clickedCoin);
+  console.log(historyCoins);
 
   function navigateToForm() {
     history.push('/portfolio/addform', clickedCoin);
   }
 
   function navigateToPortfolio() {
-    history.push('/portfolio', historyCoins);
+    history.push('/portfolio', historyCoins, calculateTotalPortfolio);
+  }
+
+  function calculateTotalPortfolio(historyCoins) {
+    const boughtCoinsObject = historyCoins.filter(
+      (boughtCoin) => boughtCoin.buyOrSell === 'buy'
+    );
+    const totalSumBought = boughtCoinsObject.reduce(
+      (a, b) => parseFloat(a) + parseFloat(b.price) * parseFloat(b.quantity),
+      0
+    );
+    const soldCoinsObject = historyCoins.filter(
+      (boughtCoin) => boughtCoin.buyOrSell === 'sell'
+    );
+    const totalSumSold = soldCoinsObject.reduce(
+      (a, b) => parseFloat(a) + parseFloat(b.price) * parseFloat(b.quantity),
+      0
+    );
+    const totalValue = totalSumBought - totalSumSold;
+    return totalValue;
   }
 
   return (
-    <>
+    <Body>
       <HeadlineWrapper>
         <CoinImage src={clickedCoin.image} alt={clickedCoin.name} />
         <HeadlineName>{clickedCoin.name} History</HeadlineName>
@@ -63,10 +78,11 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
                 <CoinData>
                   <PriceWrapper>
                     <CoinPrice>
-                      ${parseFloat(coin.price).toLocaleString('de-DE', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+                      $
+                      {parseFloat(coin.price).toLocaleString('de-DE', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </CoinPrice>
                     <BuyOrSell>{coin.buyOrSell}</BuyOrSell>
                   </PriceWrapper>
@@ -74,20 +90,24 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
                     {coin.buyOrSell === 'buy' ? (
                       <HoldingsBuy>
                         $
-                        {parseFloat(coin.price * coin.quantity)
-                          .toLocaleString('de-DE', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+                        {parseFloat(coin.price * coin.quantity).toLocaleString(
+                          'de-DE',
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          }
+                        )}
                       </HoldingsBuy>
                     ) : (
                       <HoldingsSell>
                         -$
-                        {parseFloat(coin.price * coin.quantity)
-                          .toLocaleString('de-DE', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+                        {parseFloat(coin.price * coin.quantity).toLocaleString(
+                          'de-DE',
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          }
+                        )}
                       </HoldingsSell>
                     )}
                     {coin.buyOrSell === 'buy' ? (
@@ -101,7 +121,11 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
                     )}
                   </HoldingsWrapper>
                 </CoinData>
-                <TrashCanImage title="TrashCan" role="img" />
+                <TrashCanImage
+                  title="TrashCan"
+                  role="img"
+                  onClick={() => onDeleteCoinHistory(coin)}
+                />
               </CoinRow>
             </CoinWrapper>
           </>
@@ -115,9 +139,13 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
         isStatic={isStatic}
       />
       <Footer />
-    </>
+    </Body>
   );
 }
+
+const Body = styled.body`
+  margin-bottom: 6.25rem;
+`;
 
 const HeadlineWrapper = styled.div`
   padding-bottom: 1rem;

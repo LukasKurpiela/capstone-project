@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as Close } from '../images/close.svg';
 import validateEntry from '../lib/validation';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function AddForm({ onAddCoin, exchanges, isStatic }) {
   const history = useHistory();
@@ -15,11 +16,12 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
     name: name,
     symbol: symbol,
     image: image,
+    id: '',
     buyOrSell: 'buy',
-    exchange: '',
+    exchange: '---------',
     price: '',
     quantity: '',
-    date: '',
+    date: '----/--/--',
     note: '',
   };
 
@@ -47,7 +49,7 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
     event.preventDefault();
 
     if (validateEntry(portfolioCoin)) {
-      onAddCoin(portfolioCoin);
+      onAddCoin({ ...portfolioCoin, id: uuidv4() });
       setportfolioCoin(initialCoinState);
       setIsError(false);
     } else {
@@ -137,15 +139,20 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
           placeholder="Tap to add a note"
         />
       </Inputfield>
+      {/* {isError && (
+        <ConfirmationBox isError="false">
+          Your transaction has been succesfully added to your Portfolio
+        </ConfirmationBox>
+      )} */}
       {isError && (
         <ErrorBox isError={isError}>
           Missing or wrong entries. Please check your input.
         </ErrorBox>
       )}
+
       <NavWrapper isStatic={isStatic}>
         <NavBox>
           <Button>Add Transaction</Button>
-          {navigateToOverview}
         </NavBox>
       </NavWrapper>
     </Form>
@@ -210,6 +217,15 @@ const ErrorBox = styled.div`
   display: flex;
   text-align: center;
 `;
+
+// const ConfirmationBox = styled.div`
+//   background: hsl(159, 100%, 50%);
+//   color: hsl(159, 100%, 80%);
+//   padding: 1rem;
+//   border-radius: 0.5rem;
+//   display: flex;
+//   text-align: center;
+// `;
 
 const Inputfield = styled.section`
   display: flex;

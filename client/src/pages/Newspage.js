@@ -7,7 +7,7 @@ export default function Newspage({ news }) {
       <HeadlineWrapper>
         <h2>News</h2>
       </HeadlineWrapper>
-      {news.map((news, index) => (
+      {news.map((news) => (
         <NewsWrapper>
           <NewsImage src={news.imageurl} alt="Image of news" />
           <ArticleWrapper>

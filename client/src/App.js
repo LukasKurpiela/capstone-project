@@ -14,7 +14,7 @@ import Newspage from './pages/Newspage';
 function App() {
   const [allCoins, setAllCoins] = useState(loadFromLocal('allCoins') ?? []);
   const [likedCoins, setLikedCoins] = useState(
-    loadFromLocal('favoriteCoins') ?? []
+    loadFromLocal('likedCoins') ?? []
   );
   const [portfolioCoins, setPortfolioCoins] = useState(
     loadFromLocal('portfolioCoins') ?? []
@@ -58,14 +58,12 @@ function App() {
       });
   }, []);
 
-  console.log(news);
-
   useEffect(() => {
     saveToLocal('allCoins', allCoins);
   }, [allCoins]);
 
   useEffect(() => {
-    saveToLocal('favoriteCoins', likedCoins);
+    saveToLocal('likedCoins', likedCoins);
   }, [likedCoins]);
 
   useEffect(() => {
@@ -96,6 +94,14 @@ function App() {
     loadFavoriteCoin(allCoins, setLikedCoins);
   }
 
+  function deleteCoinHistory(coinToDelete) {
+    console.log(coinToDelete);
+    const updatedPortfolioCoin = portfolioCoins.filter(
+      (coin) => coin.id !== coinToDelete.id
+    );
+    setPortfolioCoins(updatedPortfolioCoin);
+  }
+
   const handleChange = (e) => {
     setSearch(e.target.value);
   };
@@ -107,7 +113,7 @@ function App() {
   );
 
   return (
-    <CoinApp>
+    <>
       <Header />
       <Switch>
         <Route exact path="/">
@@ -126,7 +132,10 @@ function App() {
         </Route>
         <Route exact path="/portfolio">
           <main>
-            <Portfoliobar />
+            <Portfoliobar
+              portfolioCoins={portfolioCoins}
+              likedCoins={likedCoins}
+            />
             <Portfoliopage
               likedCoins={likedCoins}
               onToggleFavorite={toggleFavorite}
@@ -142,6 +151,7 @@ function App() {
               exchanges={exchanges}
               portfolioCoins={portfolioCoins}
               allCoins={allCoins}
+              onDeleteCoinHistory={deleteCoinHistory}
             />
           </main>
         </Route>
@@ -164,14 +174,8 @@ function App() {
           </main>
         </Route>
       </Switch>
-    </CoinApp>
+    </>
   );
 }
 
 export default App;
-
-const CoinApp = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;

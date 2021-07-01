@@ -15,13 +15,16 @@ export default function Headline({
 }
 
 const HeadlineWrapper = styled.h4`
-  width: 270px;
-  margin: 0px 10px 0px 40px;
+  width: 328px;
+  margin: 90px 0px 10px 15px;
   padding-bottom: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   border-bottom: 1px solid #d7d7d7;
+  position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
+  background-color: white;
+  z-index: 100;
 `;
 
 const HeadlineTag = styled.span`

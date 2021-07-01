@@ -1,18 +1,45 @@
 import styled from 'styled-components';
 
-export default function Portfoliobar() {
+export default function Portfoliobar({ portfolioCoins, likedCoins }) {
+  function calculateTotalHoldings(portfolioCoins) {
+    const boughtCoinsObject = portfolioCoins.filter(
+      (boughtCoin) => boughtCoin.buyOrSell === 'buy'
+    );
+    const totalSumBought = boughtCoinsObject.reduce(
+      (a, b) => parseFloat(a) + parseFloat(b.price) * parseFloat(b.quantity),
+      0
+    );
+
+    const soldCoinsObject = portfolioCoins.filter(
+      (boughtCoin) => boughtCoin.buyOrSell === 'sell'
+    );
+    const totalSumSold = soldCoinsObject.reduce(
+      (a, b) => parseFloat(a) + parseFloat(b.price) * parseFloat(b.quantity),
+      0
+    );
+    const totalValue = totalSumBought - totalSumSold;
+    return totalValue;
+  }
+
   return (
     <>
       <PortfolioBar>
         <PortfoliobarHeading>Portfolio Value:</PortfoliobarHeading>
-        <PortfoliobarValue>$125,000.00</PortfoliobarValue>
+        <PortfoliobarValue>
+          {calculateTotalHoldings(portfolioCoins).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </PortfoliobarValue>
       </PortfolioBar>
     </>
   );
 }
 
 const PortfolioBar = styled.div`
-  margin: 105px 23px 20px 23px;
+  margin: 30px 14px 30px 14px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -25,6 +52,8 @@ const PortfolioBar = styled.div`
   border-radius: 4px;
   border: none;
   background-color: #f8f8ff;
+  position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
+  z-index: 100;
 `;
 
 const PortfoliobarHeading = styled.span`

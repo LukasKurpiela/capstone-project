@@ -11,13 +11,14 @@ export default function Searchbar({ handleChange }) {
 }
 
 const SearchBar = styled.form`
-  margin: 105px 23px 30px 23px;
+  margin: 26px 28px 30px 28px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   box-shadow: 0 1px 2px #87878a;
+  position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
+  z-index: 100;
 `;
 
 const CoinInput = styled.input`
