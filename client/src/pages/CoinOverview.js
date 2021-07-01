@@ -62,27 +62,41 @@ export default function PortfolioOverview({ portfolioCoins, isStatic }) {
                 </ExchangeWrapper>
                 <CoinData>
                   <PriceWrapper>
-                    <CoinPrice>${parseFloat(coin.price).toFixed(2)}</CoinPrice>
+                    <CoinPrice>
+                      ${parseFloat(coin.price).toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+                    </CoinPrice>
                     <BuyOrSell>{coin.buyOrSell}</BuyOrSell>
                   </PriceWrapper>
                   <HoldingsWrapper>
                     {coin.buyOrSell === 'buy' ? (
                       <HoldingsBuy>
-                        ${parseFloat(coin.price * coin.quantity).toFixed(2)}
+                        $
+                        {parseFloat(coin.price * coin.quantity)
+                          .toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
                       </HoldingsBuy>
                     ) : (
                       <HoldingsSell>
-                        $
-                        {parseFloat(coin.price * -1 * coin.quantity).toFixed(2)}
+                        -$
+                        {parseFloat(coin.price * coin.quantity)
+                          .toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
                       </HoldingsSell>
                     )}
                     {coin.buyOrSell === 'buy' ? (
                       <QuantityBuy>
-                        {coin.quantity} {coin.symbol}
+                        {coin.quantity.replace('.', ',')} {coin.symbol}
                       </QuantityBuy>
                     ) : (
                       <QuantitySell>
-                        {coin.quantity * -1} {coin.symbol}
+                        -{coin.quantity.replace('.', ',')} {coin.symbol}
                       </QuantitySell>
                     )}
                   </HoldingsWrapper>

@@ -29,23 +29,36 @@ export default function Portfolio({ coin, onToggleFavorite, allCoins }) {
         </CoinNameWrapper>
         <CoinData>
           <PriceWrapper onClick={navigateToOverview}>
-            <CoinPrice>${price.toFixed(2)}</CoinPrice>
+            <CoinPrice>
+              $
+              {price.toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </CoinPrice>
             {priceChange < 0 ? (
               <PriceChangeNegative>
-                {priceChange.toFixed(2)}%
+                {priceChange.toFixed(2).replace('.', ',')}%
               </PriceChangeNegative>
             ) : (
               <PriceChangePositive>
-                {priceChange.toFixed(2)}%
+                {priceChange.toFixed(2).replace('.', ',')}%
               </PriceChangePositive>
             )}
           </PriceWrapper>
           <HoldingsWrapper onClick={navigateToOverview}>
             <CoinHoldingsTotal>
-              ${parseFloat(price).toFixed(2)}
+              $
+              {price.toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </CoinHoldingsTotal>
             <CoinHoldingsPerCoin>
-              {parseFloat(price).toFixed(2)}
+              {price.toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </CoinHoldingsPerCoin>
           </HoldingsWrapper>
         </CoinData>

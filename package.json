@@ -1,5 +1,5 @@
 {
-  "name": "capstone-project",
+  "name": "capstone-project-cointrax",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "node-fetch": "^1.7.3",
     "prop-types": "^15.7.2",
     "react-router-dom": "^5.2.0",
     "react-sticky-header": "^0.2.0",

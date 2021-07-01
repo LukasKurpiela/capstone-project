@@ -9,6 +9,7 @@ import Portfoliobar from './components/Portfoliobar';
 import Portfoliopage from './pages/Portfoliopage';
 import AddForm from './pages/AddForm';
 import PortfolioOverview from './pages/CoinOverview';
+import Newspage from './pages/Newspage';
 
 function App() {
   const [allCoins, setAllCoins] = useState(loadFromLocal('allCoins') ?? []);
@@ -18,6 +19,7 @@ function App() {
   const [portfolioCoins, setPortfolioCoins] = useState(
     loadFromLocal('portfolioCoins') ?? []
   );
+  const [news, setNews] = useState([]);
   const [exchanges, setExchanges] = useState(loadFromLocal('exchanges') ?? []);
   const [search, setSearch] = useState('');
 
@@ -47,6 +49,16 @@ function App() {
       .then((exchangesFromApi) => setExchanges(exchangesFromApi))
       .catch((error) => console.error(error));
   }, []);
+
+  useEffect(() => {
+    fetch('/apiNews')
+      .then((result) => result.json())
+      .then((newsFromApi) => {
+        setNews(newsFromApi);
+      });
+  }, []);
+
+  console.log(news);
 
   useEffect(() => {
     saveToLocal('allCoins', allCoins);
@@ -146,7 +158,11 @@ function App() {
             />
           </main>
         </Route>
-        <Route path="/news"></Route>
+        <Route path="/news">
+          <main>
+            <Newspage news={news} />
+          </main>
+        </Route>
       </Switch>
     </CoinApp>
   );

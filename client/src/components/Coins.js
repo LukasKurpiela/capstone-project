@@ -19,20 +19,30 @@ export default function Coins({ coin, onToggleFavorite }) {
         </CoinNameWrapper>
         <CoinData>
           <PriceWrapper>
-            <CoinPrice>${price.toFixed(2)}</CoinPrice>
+            <CoinPrice>
+              $
+              {price.toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </CoinPrice>
             {priceChange < 0 ? (
               <PriceChangeNegative>
-                {priceChange.toFixed(2)}%
+                {priceChange.toFixed(2).replace('.', ',')}%
               </PriceChangeNegative>
             ) : (
               <PriceChangePositive>
-                {priceChange.toFixed(2)}%
+                {priceChange.toFixed(2).replace('.', ',')}%
               </PriceChangePositive>
             )}
           </PriceWrapper>
           <MarketCapWrapper>
-            <CoinMarketCap>${marketCap.toLocaleString()}</CoinMarketCap>
-            <CoinVolume>${volume.toLocaleString()}</CoinVolume>
+            <CoinMarketCap>
+              ${parseInt(marketCap / 1000).toLocaleString()} T
+            </CoinMarketCap>
+            <CoinVolume>
+              ${parseInt(volume / 1000).toLocaleString()} T
+            </CoinVolume>
           </MarketCapWrapper>
         </CoinData>
         <span onClick={() => onToggleFavorite(coin)}>
