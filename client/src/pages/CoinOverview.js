@@ -50,10 +50,11 @@ export default function PortfolioOverview({
   }
 
   return (
-    <Body>
+    <BodyWrapper>
+      <HeadlineBlockWrapper />
       <HeadlineWrapper>
         <CoinImage src={clickedCoin.image} alt={clickedCoin.name} />
-        <HeadlineName>{clickedCoin.name} History</HeadlineName>
+        <HeadlineName>{clickedCoin.symbol.toUpperCase()} History</HeadlineName>
         <CloseIcon title="Close" role="img" onClick={navigateToPortfolio} />
       </HeadlineWrapper>
       <Headline
@@ -61,76 +62,76 @@ export default function PortfolioOverview({
         Headlinetext2="Price"
         Headlinetext3="Holdings"
       />
-      {historyCoins.map((coin) => {
-        return (
-          <>
-            <CoinWrapper>
-              <CoinRow>
-                {coin.buyOrSell === 'buy' ? (
-                  <BuyImage title="BuyOrSell" role="img" />
-                ) : (
-                  <SellImage title="BuyOrSell" role="img" />
-                )}
-                <ExchangeWrapper>
-                  <Exchange>{coin.exchange}</Exchange>
-                  <Date>{coin.date}</Date>
-                </ExchangeWrapper>
-                <CoinData>
-                  <PriceWrapper>
-                    <CoinPrice>
-                      $
-                      {parseFloat(coin.price).toLocaleString('de-DE', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                    </CoinPrice>
-                    <BuyOrSell>{coin.buyOrSell}</BuyOrSell>
-                  </PriceWrapper>
-                  <HoldingsWrapper>
-                    {coin.buyOrSell === 'buy' ? (
-                      <HoldingsBuy>
+      <CoinBodyWrapper>
+        {historyCoins.map((coin) => {
+          return (
+            <>
+              <CoinWrapper>
+                <CoinRow>
+                  {coin.buyOrSell === 'buy' ? (
+                    <BuyImage title="BuyOrSell" role="img" />
+                  ) : (
+                    <SellImage title="BuyOrSell" role="img" />
+                  )}
+                  <ExchangeWrapper>
+                    <Exchange>{coin.exchange}</Exchange>
+                    <Date>{coin.date}</Date>
+                  </ExchangeWrapper>
+                  <CoinData>
+                    <PriceWrapper>
+                      <CoinPrice>
                         $
-                        {parseFloat(coin.price * coin.quantity).toLocaleString(
-                          'de-DE',
-                          {
+                        {parseFloat(coin.price).toLocaleString('de-DE', {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </CoinPrice>
+                      <BuyOrSell>{coin.buyOrSell}</BuyOrSell>
+                    </PriceWrapper>
+                    <HoldingsWrapper>
+                      {coin.buyOrSell === 'buy' ? (
+                        <HoldingsBuy>
+                          $
+                          {parseFloat(
+                            coin.price * coin.quantity
+                          ).toLocaleString('de-DE', {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
-                          }
-                        )}
-                      </HoldingsBuy>
-                    ) : (
-                      <HoldingsSell>
-                        -$
-                        {parseFloat(coin.price * coin.quantity).toLocaleString(
-                          'de-DE',
-                          {
+                          })}
+                        </HoldingsBuy>
+                      ) : (
+                        <HoldingsSell>
+                          -$
+                          {parseFloat(
+                            coin.price * coin.quantity
+                          ).toLocaleString('de-DE', {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
-                          }
-                        )}
-                      </HoldingsSell>
-                    )}
-                    {coin.buyOrSell === 'buy' ? (
-                      <QuantityBuy>
-                        {coin.quantity.replace('.', ',')} {coin.symbol}
-                      </QuantityBuy>
-                    ) : (
-                      <QuantitySell>
-                        -{coin.quantity.replace('.', ',')} {coin.symbol}
-                      </QuantitySell>
-                    )}
-                  </HoldingsWrapper>
-                </CoinData>
-                <TrashCanImage
-                  title="TrashCan"
-                  role="img"
-                  onClick={() => onDeleteCoinHistory(coin)}
-                />
-              </CoinRow>
-            </CoinWrapper>
-          </>
-        );
-      })}
+                          })}
+                        </HoldingsSell>
+                      )}
+                      {coin.buyOrSell === 'buy' ? (
+                        <QuantityBuy>
+                          {coin.quantity.replace('.', ',')} {coin.symbol}
+                        </QuantityBuy>
+                      ) : (
+                        <QuantitySell>
+                          -{coin.quantity.replace('.', ',')} {coin.symbol}
+                        </QuantitySell>
+                      )}
+                    </HoldingsWrapper>
+                  </CoinData>
+                  <TrashCanImage
+                    title="TrashCan"
+                    role="img"
+                    onClick={() => onDeleteCoinHistory(coin)}
+                  />
+                </CoinRow>
+              </CoinWrapper>
+            </>
+          );
+        })}
+      </CoinBodyWrapper>
       <AddButton onClick={navigateToForm} isStatic={isStatic}></AddButton>
       <AddSign
         onClick={navigateToForm}
@@ -139,24 +140,39 @@ export default function PortfolioOverview({
         isStatic={isStatic}
       />
       <Footer />
-    </Body>
+    </BodyWrapper>
   );
 }
 
-const Body = styled.body`
-  margin-bottom: 6.25rem;
+const BodyWrapper = styled.div`
+  margin-bottom: 6.5rem;
 `;
 
 const HeadlineWrapper = styled.div`
-  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
+  margin-top: 32.5px;
   display: flex;
   justify-content: center;
   font-weight: bold;
-  margin-top: 110px;
-  padding-bottom: 41px;
   position: relative;
-  width: 346px;
+  width: 320px;
+  position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
+  background-color: white;
+  z-index: 100;
 `;
+
+const HeadlineBlockWrapper = styled.div`
+  margin-top: 0px;
+  width: 100%;
+  position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
+  height: 117px;
+  background-color: white;
+  z-index: 99;
+`;
+
+// const Headline = styled.div`
+//   margin-top: 50px;
+// `;
 
 const CoinImage = styled.img`
   height: 1.5rem;
@@ -170,7 +186,7 @@ const HeadlineName = styled.h2`
 `;
 
 const CloseIcon = styled(Close)`
-  left: 16.9rem;
+  left: 16rem;
   top: 0.15rem;
   height: 1.2rem;
   width: 1.2rem;
@@ -191,6 +207,10 @@ const SellImage = styled(BuySellIcon)`
   width: 1.75rem;
   margin-right: 0.625rem;
   fill: red;
+`;
+
+const CoinBodyWrapper = styled.div`
+  padding-top: 116px;
 `;
 
 const CoinWrapper = styled.div`
@@ -289,8 +309,8 @@ const QuantitySell = styled.span`
 `;
 
 const TrashCanImage = styled(TrashCan)`
-  height: 1.75rem;
-  width: 1.75rem;
+  height: 1.8rem;
+  width: 1.8rem;
   margin-left: 10px;
   cursor: pointer;
 `;
@@ -304,6 +324,7 @@ const AddButton = styled.button`
   bottom: 8rem;
   right: 1.5rem;
   cursor: pointer;
+  position: absolute;
   position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
 `;
 
@@ -314,5 +335,6 @@ const AddSign = styled(PlusIcon)`
   bottom: 8.75rem;
   right: 2.3rem;
   cursor: pointer;
+  position: absolute;
   position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
 `;

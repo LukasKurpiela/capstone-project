@@ -24,7 +24,7 @@ export default function Portfoliobar({ portfolioCoins, likedCoins }) {
   return (
     <>
       <PortfolioBar>
-        <PortfoliobarHeading>Portfolio Value:</PortfoliobarHeading>
+        <PortfoliobarHeading>Total Profit/Loss:</PortfoliobarHeading>
         <PortfoliobarValue>
           {calculateTotalHoldings(portfolioCoins).toLocaleString('en-US', {
             style: 'currency',
@@ -39,7 +39,7 @@ export default function Portfoliobar({ portfolioCoins, likedCoins }) {
 }
 
 const PortfolioBar = styled.div`
-  margin: 26px 14px 30px 19px;
+  margin: 26px 14px 30px 14px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;

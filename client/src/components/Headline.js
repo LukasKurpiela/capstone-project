@@ -7,31 +7,37 @@ export default function Headline({
 }) {
   return (
     <HeadlineWrapper>
-      <HeadlineTag>{Headlinetext1}</HeadlineTag>
-      <HeadlineTag>{Headlinetext2}</HeadlineTag>
+      <HeadlineTagLeft>{Headlinetext1}</HeadlineTagLeft>
+      <HeadlineTagCenter>{Headlinetext2}</HeadlineTagCenter>
       <HeadlineTagRight>{Headlinetext3}</HeadlineTagRight>
     </HeadlineWrapper>
   );
 }
 
 const HeadlineWrapper = styled.h4`
-  width: 329px;
-  margin: 90px 15px 10px 8px;
-  padding-bottom: 10px;
+  width: 335px;
+  margin: 90px 0px 10px 0px;
+  padding: 0 10px 10px 0px;
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid #d7d7d7;
   position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
   background-color: white;
   z-index: 100;
 `;
 
-const HeadlineTag = styled.span`
-  width: 2.5rem;
+const HeadlineTagLeft = styled.span`
+  padding-left: 2.25rem;
+  text-align: left;
+  position: relative;
+`;
+
+const HeadlineTagCenter = styled.span`
+  position: absolute;
+  padding-left: 35%;
 `;
 
 const HeadlineTagRight = styled.span`
-  width: 5rem;
   text-align: right;
+  padding-right: 1.5rem;
 `;

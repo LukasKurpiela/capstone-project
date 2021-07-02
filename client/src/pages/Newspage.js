@@ -5,7 +5,7 @@ export default function Newspage({ news }) {
   return (
     <>
       <HeadlineWrapper>
-        <h2>News</h2>
+        <NewsHeader>News</NewsHeader>
       </HeadlineWrapper>
       {news.map((news) => (
         <NewsWrapper>
@@ -28,12 +28,15 @@ export default function Newspage({ news }) {
 }
 
 const HeadlineWrapper = styled.div`
-  padding-bottom: 1rem;
   display: flex;
   justify-content: center;
   font-weight: bold;
-  margin-top: 90px;
+  margin-top: 6px;
   padding-bottom: 0;
+`;
+
+const NewsHeader = styled.h2`
+  margin-bottom: 0.5rem;
 `;
 
 const NewsImage = styled.img`

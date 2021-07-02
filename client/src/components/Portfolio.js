@@ -9,6 +9,7 @@ export default function Portfolio({
   onToggleFavorite,
   allCoins,
   portfolioCoins,
+  setPortfolioValue,
 }) {
   const history = useHistory();
 
@@ -24,25 +25,46 @@ export default function Portfolio({
   const { price_change_percentage_24h: priceChange, current_price: price } =
     updatedCoin;
 
-  function calculateHoldingsPerCoin(historyCoins) {
-    const boughtCoinsObject = historyCoins.filter(
-      (boughtCoin) => boughtCoin.buyOrSell === 'buy'
-    );
-    const totalSumBought = boughtCoinsObject.reduce(
-      (a, b) => parseFloat(a) + parseFloat(b.price) * parseFloat(b.quantity),
-      0
-    );
+  // function calculateProfitLossPerCoin(historyCoins) {
+  //   const boughtCoinsObject = historyCoins.filter(
+  //     (boughtCoin) => boughtCoin.buyOrSell === 'buy'
+  //   );
+  //   const totalSumBought = boughtCoinsObject.reduce(
+  //     (a, b) => parseFloat(a) + parseFloat(b.price) * parseFloat(b.quantity),
+  //     0
+  //   );
 
-    const soldCoinsObject = historyCoins.filter(
-      (boughtCoin) => boughtCoin.buyOrSell === 'sell'
-    );
-    const totalSumSold = soldCoinsObject.reduce(
-      (a, b) => parseFloat(a) + parseFloat(b.price) * parseFloat(b.quantity),
-      0
-    );
-    const totalValue = totalSumBought - totalSumSold;
-    return totalValue;
-  }
+  //   const soldCoinsObject = historyCoins.filter(
+  //     (boughtCoin) => boughtCoin.buyOrSell === 'sell'
+  //   );
+  //   const totalSumSold = soldCoinsObject.reduce(
+  //     (a, b) => parseFloat(a) + parseFloat(b.price) * parseFloat(b.quantity),
+  //     0
+  //   );
+  //   const totalProfitLoss = totalSumBought - totalSumSold;
+  //   return totalProfitLoss;
+  // }
+
+  // function calculateTotalPortfolioValue(historyCoins) {
+  //   const boughtCoinsObject = historyCoins.filter(
+  //     (boughtCoin) => boughtCoin.buyOrSell === 'buy'
+  //   );
+  //   const totalQuantityBought = boughtCoinsObject.reduce(
+  //     (a, b) => parseFloat(a) + parseFloat(b.quantity),
+  //     0
+  //   );
+
+  //   const soldCoinsObject = historyCoins.filter(
+  //     (boughtCoin) => boughtCoin.buyOrSell === 'sell'
+  //   );
+  //   const totalQuantitySold = soldCoinsObject.reduce(
+  //     (a, b) => parseFloat(a) + parseFloat(b.quantity),
+  //     0
+  //   );
+  //   const totalQuantity = totalQuantityBought - totalQuantitySold;
+  //   // setPortfolioValue(totalQuantity);
+  //   return totalQuantity;
+  // }
 
   function calculateQuantityPerCoin(historyCoins) {
     const boughtCoinsObject = historyCoins.filter(
@@ -61,9 +83,14 @@ export default function Portfolio({
       0
     );
     const totalQuantity = totalQuantityBought - totalQuantitySold;
-    console.log(boughtCoinsObject);
-    console.log(soldCoinsObject);
     return totalQuantity;
+  }
+
+  function setPortfolioValuePerCoin(historyCoins) {
+    const totalValuePerCoin = price * calculateQuantityPerCoin(historyCoins);
+    // setPortfolioValue(totalValuePerCoin);
+    console.log(totalValuePerCoin);
+    return totalValuePerCoin;
   }
 
   function navigateToOverview() {
@@ -99,9 +126,8 @@ export default function Portfolio({
           </PriceWrapper>
           <HoldingsWrapper onClick={navigateToOverview}>
             <CoinHoldingsPerCoin>
-              {calculateHoldingsPerCoin(historyCoins).toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD',
+              $
+              {setPortfolioValuePerCoin(historyCoins).toLocaleString('de-DE', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}
@@ -113,7 +139,8 @@ export default function Portfolio({
               {calculateQuantityPerCoin(historyCoins).toLocaleString({
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
-              })}
+              })}{' '}
+              {symbol}
             </CoinQuantityPerCoin>
           </HoldingsWrapper>
         </CoinData>
@@ -210,6 +237,7 @@ const CoinHoldingsPerCoin = styled.span`
 
 const CoinQuantityPerCoin = styled.span`
   width: 7.8rem;
+  text-transform: uppercase;
 `;
 
 const StarImageFilled = styled(StarFilled)`

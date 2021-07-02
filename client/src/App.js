@@ -95,7 +95,6 @@ function App() {
   }
 
   function deleteCoinHistory(coinToDelete) {
-    console.log(coinToDelete);
     const updatedPortfolioCoin = portfolioCoins.filter(
       (coin) => coin.id !== coinToDelete.id
     );
@@ -117,61 +116,52 @@ function App() {
       <Header />
       <Switch>
         <Route exact path="/">
-          <main>
-            <Searchbar
-              search={search}
-              handleChange={handleChange}
-              filteredCoins={filteredCoins}
-            />
-            <Coinpage
-              onToggleFavorite={toggleFavorite}
-              filteredCoins={filteredCoins}
-              allCoins={allCoins}
-            />
-          </main>
+          <Searchbar
+            search={search}
+            handleChange={handleChange}
+            filteredCoins={filteredCoins}
+          />
+          <Coinpage
+            onToggleFavorite={toggleFavorite}
+            filteredCoins={filteredCoins}
+            allCoins={allCoins}
+          />
         </Route>
         <Route exact path="/portfolio">
-          <main>
-            <Portfoliobar
-              portfolioCoins={portfolioCoins}
-              likedCoins={likedCoins}
-            />
-            <Portfoliopage
-              likedCoins={likedCoins}
-              onToggleFavorite={toggleFavorite}
-              filteredCoins={filteredCoins}
-              allCoins={allCoins}
-              portfolioCoins={portfolioCoins}
-            />
-          </main>
+          <Portfoliobar
+            portfolioCoins={portfolioCoins}
+            likedCoins={likedCoins}
+          />
+          <Portfoliopage
+            likedCoins={likedCoins}
+            onToggleFavorite={toggleFavorite}
+            filteredCoins={filteredCoins}
+            allCoins={allCoins}
+            portfolioCoins={portfolioCoins}
+            // setPortfolioValue={setPortfolioValue}
+          />
         </Route>
         <Route path="/portfolio/overview">
-          <main>
-            <PortfolioOverview
-              exchanges={exchanges}
-              portfolioCoins={portfolioCoins}
-              allCoins={allCoins}
-              onDeleteCoinHistory={deleteCoinHistory}
-            />
-          </main>
+          <PortfolioOverview
+            exchanges={exchanges}
+            portfolioCoins={portfolioCoins}
+            allCoins={allCoins}
+            onDeleteCoinHistory={deleteCoinHistory}
+          />
         </Route>
         <Route path="/portfolio/addform">
-          <main>
-            <AddForm
-              exchanges={exchanges}
-              likedCoins={likedCoins}
-              onToggleFavorite={toggleFavorite}
-              filteredCoins={filteredCoins}
-              allCoins={allCoins}
-              onAddCoin={addCoin}
-              portfolioCoins={portfolioCoins}
-            />
-          </main>
+          <AddForm
+            exchanges={exchanges}
+            likedCoins={likedCoins}
+            onToggleFavorite={toggleFavorite}
+            filteredCoins={filteredCoins}
+            allCoins={allCoins}
+            onAddCoin={addCoin}
+            portfolioCoins={portfolioCoins}
+          />
         </Route>
         <Route path="/news">
-          <main>
-            <Newspage news={news} />
-          </main>
+          <Newspage news={news} />
         </Route>
       </Switch>
     </CoinApp>

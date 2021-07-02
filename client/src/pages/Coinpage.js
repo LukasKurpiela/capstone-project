@@ -30,5 +30,5 @@ const CoinBlockWrapperStatic = styled.div`
 `;
 
 const CoinBlockWrapper = styled.div`
-  padding-top: 114px;
+  margin-top: 116px;
 `;

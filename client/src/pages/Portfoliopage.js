@@ -8,6 +8,9 @@ export default function Portfoliopage({
   likedCoins,
   allCoins,
   portfolioCoins,
+  historyCoins,
+  onCalculateQuantityPerCoin,
+  setPortfolioValue,
 }) {
   return (
     <>
@@ -26,6 +29,9 @@ export default function Portfoliopage({
             likedCoins={likedCoins}
             allCoins={allCoins}
             portfolioCoins={portfolioCoins}
+            onCalculateQuantityPerCoin={onCalculateQuantityPerCoin}
+            historyCoins={historyCoins}
+            setPortfolioValue={setPortfolioValue}
           />
         );
       })}
