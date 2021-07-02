@@ -6,7 +6,12 @@ import { ReactComponent as Close } from '../images/close.svg';
 import validateEntry from '../lib/validation';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function AddForm({ onAddCoin, exchanges, isStatic }) {
+export default function AddForm({
+  onAddCoin,
+  exchanges,
+  isStatic,
+  onPostCoinDatabase,
+}) {
   const history = useHistory();
   const clickedCoin = history.location.state;
 
@@ -50,7 +55,8 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
     event.preventDefault();
 
     if (validateEntry(portfolioCoin)) {
-      onAddCoin({ ...portfolioCoin, id: uuidv4() });
+      // onAddCoin({ ...portfolioCoin, id: uuidv4() });
+      onPostCoinDatabase({ ...portfolioCoin, id: uuidv4() });
       setportfolioCoin(initialCoinState);
       setIsError(false);
       setIsDone(true);

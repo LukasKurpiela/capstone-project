@@ -11,6 +11,7 @@ export default function PortfolioOverview({
   portfolioCoins,
   isStatic,
   onDeleteCoinHistory,
+  onDeleteCoinDatabase,
 }) {
   const history = useHistory();
   const clickedCoin = history.location.state;
@@ -112,11 +113,20 @@ export default function PortfolioOverview({
                       )}
                       {coin.buyOrSell === 'buy' ? (
                         <QuantityBuy>
-                          {coin.quantity.replace('.', ',')} {coin.symbol}
+                          {coin.quantity.toLocaleString('de-DE', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })}{' '}
+                          {coin.symbol}
                         </QuantityBuy>
                       ) : (
                         <QuantitySell>
-                          -{coin.quantity.replace('.', ',')} {coin.symbol}
+                          -
+                          {coin.quantity.toLocaleString('de-DE', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })}{' '}
+                          {coin.symbol}
                         </QuantitySell>
                       )}
                     </HoldingsWrapper>
@@ -124,7 +134,10 @@ export default function PortfolioOverview({
                   <TrashCanImage
                     title="TrashCan"
                     role="img"
-                    onClick={() => onDeleteCoinHistory(coin)}
+                    onClick={() => {
+                      onDeleteCoinHistory(coin);
+                      onDeleteCoinDatabase(coin);
+                    }}
                   />
                 </CoinRow>
               </CoinWrapper>
