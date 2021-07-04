@@ -1,18 +1,29 @@
 import styled from 'styled-components';
+import { calculateHoldingsTotal } from '../lib/calculations';
 
-export default function Portfoliobar() {
+export default function Portfoliobar({ portfolioCoins, historyCoins }) {
   return (
     <>
       <PortfolioBar>
-        <PortfoliobarHeading>Portfolio Value:</PortfoliobarHeading>
-        <PortfoliobarValue>$125,000.00</PortfoliobarValue>
+        <PortfoliobarHeading>Total Profit/Loss:</PortfoliobarHeading>
+        <PortfoliobarValue>
+          {/* {calculateHoldingsTotal(portfolioCoins, historyCoins).toLocaleString(
+            'en-US',
+            {
+              style: 'currency',
+              currency: 'USD',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }
+          )} */}
+        </PortfoliobarValue>
       </PortfolioBar>
     </>
   );
 }
 
 const PortfolioBar = styled.div`
-  margin: 105px 23px 20px 23px;
+  margin: 26px 14px 30px 14px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -25,6 +36,8 @@ const PortfolioBar = styled.div`
   border-radius: 4px;
   border: none;
   background-color: #f8f8ff;
+  position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
+  z-index: 100;
 `;
 
 const PortfoliobarHeading = styled.span`

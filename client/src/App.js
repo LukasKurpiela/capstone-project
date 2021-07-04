@@ -14,14 +14,23 @@ import Newspage from './pages/Newspage';
 function App() {
   const [allCoins, setAllCoins] = useState(loadFromLocal('allCoins') ?? []);
   const [likedCoins, setLikedCoins] = useState(
-    loadFromLocal('favoriteCoins') ?? []
+    loadFromLocal('likedCoins') ?? []
   );
   const [portfolioCoins, setPortfolioCoins] = useState(
     loadFromLocal('portfolioCoins') ?? []
   );
+
+  const [portfolioCoinsDatabase, setPortfolioCoinsDatabase] = useState(
+    loadFromLocal('portfolioCoinsDatabase') ?? []
+  );
+
   const [news, setNews] = useState([]);
   const [exchanges, setExchanges] = useState(loadFromLocal('exchanges') ?? []);
   const [search, setSearch] = useState('');
+
+  const [holdingsPerCoin, setHoldingsPerCoin] = useState(
+    loadFromLocal('holdingsPerCoin') ?? []
+  );
 
   useEffect(() => {
     fetch(
@@ -58,14 +67,20 @@ function App() {
       });
   }, []);
 
-  console.log(news);
+  useEffect(() => {
+    fetch('/coins')
+      .then((result) => result.json())
+      .then((databaseCoins) => setPortfolioCoinsDatabase(databaseCoins))
+      .catch((error) => console.log(error.message));
+  }, []);
+
 
   useEffect(() => {
     saveToLocal('allCoins', allCoins);
   }, [allCoins]);
 
   useEffect(() => {
-    saveToLocal('favoriteCoins', likedCoins);
+    saveToLocal('likedCoins', likedCoins);
   }, [likedCoins]);
 
   useEffect(() => {
@@ -76,8 +91,64 @@ function App() {
     saveToLocal('portfolioCoins', portfolioCoins);
   }, [portfolioCoins]);
 
+  useEffect(() => {
+    saveToLocal('portfolioCoinsDatabase', portfolioCoinsDatabase);
+  }, [portfolioCoinsDatabase]);
+
+  useEffect(() => {
+    saveToLocal('holdingsPerCoin', holdingsPerCoin);
+  }, [holdingsPerCoin]);
+
+  function postCoinDatabase(coin) {
+    fetch('http://localhost:4000/coins', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: coin.name,
+        symbol: coin.symbol,
+        image: coin.image,
+        id: coin.id,
+        buyOrSell: coin.buyOrSell,
+        exchange: coin.exchange,
+        price: coin.price,
+        quantity: coin.quantity,
+        date: coin.date,
+        note: coin.note,
+      }),
+    })
+      .then((result) => result.json())
+      .then((coinSaved) => {
+        addCoin(coinSaved);
+      })
+      .catch((error) => console.error(error));
+  }
+
+  function deleteCoinDatabase(coinToDelete) {
+    fetch(`/coins/${coinToDelete._id}`, {
+      method: 'DELETE',
+    })
+      .then((result) => result.json())
+      .then((response) => {
+        if (response.data && response.data._id) {
+          const coinsToKeep = portfolioCoinsDatabase.filter(
+            (coin) => coin._id !== response.data._id
+          );
+          setPortfolioCoinsDatabase(coinsToKeep);
+        } else {
+          console.log('Coin could not be deleted');
+        }
+      })
+      .catch((error) => console.log(error.message));
+  }
+
   function addCoin(portfolioCoin) {
     setPortfolioCoins([...portfolioCoins, portfolioCoin]);
+  }
+
+  function addTotalValue(totalValuePerCoin) {
+    setHoldingsPerCoin(totalValuePerCoin);
   }
 
   function loadFavoriteCoin(coins, setFavorites) {
@@ -96,6 +167,13 @@ function App() {
     loadFavoriteCoin(allCoins, setLikedCoins);
   }
 
+  function deleteCoinHistory(coinToDelete) {
+    const updatedPortfolioCoin = portfolioCoins.filter(
+      (coin) => coin.id !== coinToDelete.id
+    );
+    setPortfolioCoins(updatedPortfolioCoin);
+  }
+
   const handleChange = (e) => {
     setSearch(e.target.value);
   };
@@ -111,53 +189,56 @@ function App() {
       <Header />
       <Switch>
         <Route exact path="/">
-          <main>
-            <Searchbar
-              search={search}
-              handleChange={handleChange}
-              filteredCoins={filteredCoins}
-            />
-            <Coinpage
-              onToggleFavorite={toggleFavorite}
-              filteredCoins={filteredCoins}
-              allCoins={allCoins}
-            />
-          </main>
+          <Searchbar
+            search={search}
+            handleChange={handleChange}
+            filteredCoins={filteredCoins}
+          />
+          <Coinpage
+            onToggleFavorite={toggleFavorite}
+            filteredCoins={filteredCoins}
+            allCoins={allCoins}
+          />
         </Route>
         <Route exact path="/portfolio">
-          <main>
-            <Portfoliobar />
-            <Portfoliopage
-              likedCoins={likedCoins}
-              onToggleFavorite={toggleFavorite}
-              filteredCoins={filteredCoins}
-              allCoins={allCoins}
-              portfolioCoins={portfolioCoins}
-            />
-          </main>
+          <Portfoliobar
+            portfolioCoins={portfolioCoins}
+            likedCoins={likedCoins}
+          />
+          <Portfoliopage
+            likedCoins={likedCoins}
+            onToggleFavorite={toggleFavorite}
+            filteredCoins={filteredCoins}
+            allCoins={allCoins}
+            portfolioCoins={portfolioCoins}
+            onAddTotalValue={addTotalValue}
+          />
         </Route>
         <Route path="/portfolio/overview">
-          <main>
-            <PortfolioOverview
-              exchanges={exchanges}
-              portfolioCoins={portfolioCoins}
-              allCoins={allCoins}
-            />
-          </main>
+          <PortfolioOverview
+            exchanges={exchanges}
+            portfolioCoins={portfolioCoins}
+            allCoins={allCoins}
+            onDeleteCoinHistory={deleteCoinHistory}
+            onDeleteCoinDatabase={deleteCoinDatabase}
+          />
         </Route>
         <Route path="/portfolio/addform">
-          <main>
-            <AddForm
-              exchanges={exchanges}
-              likedCoins={likedCoins}
-              onToggleFavorite={toggleFavorite}
-              filteredCoins={filteredCoins}
-              allCoins={allCoins}
-              onAddCoin={addCoin}
-              portfolioCoins={portfolioCoins}
-            />
-          </main>
+          <AddForm
+            exchanges={exchanges}
+            likedCoins={likedCoins}
+            onToggleFavorite={toggleFavorite}
+            filteredCoins={filteredCoins}
+            allCoins={allCoins}
+            onAddCoin={addCoin}
+            portfolioCoins={portfolioCoins}
+            onPostCoinDatabase={postCoinDatabase}
+          />
         </Route>
+        <Route path="/news">
+          <Newspage news={news} />
+        </Route>
+
         <Route path="/news">
           <main>
             <Newspage news={news} />

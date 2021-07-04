@@ -5,6 +5,11 @@ export default function Newspage({ news }) {
   return (
     <>
       <HeadlineWrapper>
+
+        <NewsHeader>News</NewsHeader>
+      </HeadlineWrapper>
+      {news.map((news) => (
+
         <h2>News</h2>
       </HeadlineWrapper>
       {news.map((news, index) => (
@@ -28,6 +33,18 @@ export default function Newspage({ news }) {
 }
 
 const HeadlineWrapper = styled.div`
+
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  margin-top: 6px;
+  padding-bottom: 0;
+`;
+
+const NewsHeader = styled.h2`
+  margin-bottom: 0.5rem;
+`;
+
   padding-bottom: 1rem;
   display: flex;
   justify-content: center;

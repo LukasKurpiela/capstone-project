@@ -4,8 +4,14 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as Close } from '../images/close.svg';
 import validateEntry from '../lib/validation';
+import { v4 as uuidv4 } from 'uuid';
 
-export default function AddForm({ onAddCoin, exchanges, isStatic }) {
+export default function AddForm({
+  onAddCoin,
+  exchanges,
+  isStatic,
+  onPostCoinDatabase,
+}) {
   const history = useHistory();
   const clickedCoin = history.location.state;
 
@@ -15,11 +21,12 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
     name: name,
     symbol: symbol,
     image: image,
+    id: '',
     buyOrSell: 'buy',
-    exchange: '',
+    exchange: '---------',
     price: '',
     quantity: '',
-    date: '',
+    date: '----/--/--',
     note: '',
   };
 
@@ -28,9 +35,10 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
   }
 
   const [portfolioCoin, setportfolioCoin] = useState(
-    loadFromLocal('portFolioCoin') ?? initialCoinState
+    loadFromLocal('portfolioCoin') ?? initialCoinState
   );
   const [isError, setIsError] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
     saveToLocal('portfolioCoin', portfolioCoin);
@@ -47,25 +55,29 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
     event.preventDefault();
 
     if (validateEntry(portfolioCoin)) {
-      onAddCoin(portfolioCoin);
+      // onAddCoin({ ...portfolioCoin, id: uuidv4() });
+      onPostCoinDatabase({ ...portfolioCoin, id: uuidv4() });
       setportfolioCoin(initialCoinState);
       setIsError(false);
+      setIsDone(true);
+      setTimeout(() => setIsDone(false), 3000);
     } else {
       setIsError(true);
-      setTimeout(() => setIsError(false), 4000);
+      setIsDone(false);
+      setTimeout(() => setIsError(false), 3000);
     }
   }
 
   return (
     <Form onSubmit={handleForm}>
       <HeadlineWrapper>
-        <CoinImage src={image} alt={name} />
-        <HeadlineName>{name} - Add Transaction</HeadlineName>
+        <CoinImage src={image} alt="Image of selected coin" />
+        <HeadlineName>{symbol.toUpperCase()} - Add Transaction</HeadlineName>
         <CloseIcon title="Close" role="img" onClick={navigateToOverview} />
       </HeadlineWrapper>
       <BuyOrSell>
         <label htmlFor="buyOrSell"></label>
-        <input
+        <Input
           isPrimary
           type="radio"
           value="buy"
@@ -74,7 +86,7 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
           checked={portfolioCoin.buyOrSell === 'buy'}
         />{' '}
         Buy
-        <input
+        <Input
           type="radio"
           value="sell"
           name="buyOrSell"
@@ -85,7 +97,7 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
       </BuyOrSell>
       <Inputfield>
         <label htmlFor="price">Price per Coin*</label>
-        <input
+        <Input
           type="text"
           name="price"
           onChange={updateCoin}
@@ -95,7 +107,7 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
       </Inputfield>
       <Inputfield>
         <label htmlFor="quantity">Quantity*</label>
-        <input
+        <Input
           type="text"
           name="quantity"
           onChange={updateCoin}
@@ -120,7 +132,7 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
       </Inputfield>
       <Inputfield>
         <label htmlFor="date">Date</label>
-        <input
+        <Input
           type="date"
           name="date"
           onChange={updateCoin}
@@ -129,7 +141,7 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
       </Inputfield>
       <Inputfield>
         <label htmlFor="note">Note</label>
-        <input
+        <Input
           type="text"
           name="note"
           onChange={updateCoin}
@@ -137,16 +149,19 @@ export default function AddForm({ onAddCoin, exchanges, isStatic }) {
           placeholder="Tap to add a note"
         />
       </Inputfield>
+      {isDone && (
+        <ConfirmationBox isDone={isDone}>
+          Your transaction has been succesfully added to your Portfolio
+        </ConfirmationBox>
+      )}
       {isError && (
         <ErrorBox isError={isError}>
           Missing or wrong entries. Please check your input.
         </ErrorBox>
       )}
+
       <NavWrapper isStatic={isStatic}>
-        <NavBox>
-          <Button>Add Transaction</Button>
-          {navigateToOverview}
-        </NavBox>
+        <Button>Add Transaction</Button>
       </NavWrapper>
     </Form>
   );
@@ -157,8 +172,8 @@ const HeadlineWrapper = styled.div`
   display: flex;
   justify-content: left;
   font-weight: bold;
-  margin-top: 110px;
-  padding-bottom: 10px;
+  margin-top: 32.5px;
+  padding: 0 0 10px 20px;
   position: relative;
 `;
 
@@ -174,7 +189,7 @@ const HeadlineName = styled.h2`
 `;
 
 const CloseIcon = styled(Close)`
-  left: 16rem;
+  left: 15.7rem;
   top: 0.15rem;
   height: 1.2rem;
   width: 1.2rem;
@@ -203,8 +218,17 @@ const BuyOrSell = styled.section`
 `;
 
 const ErrorBox = styled.div`
-  background: hsl(340, 60%, 50%);
-  color: hsl(340, 80%, 80%);
+  background: hsl(335, 60%, 50%);
+  color: hsl(335, 75%, 90%);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  text-align: center;
+`;
+
+const ConfirmationBox = styled.div`
+  background: hsl(159, 100%, 30%);
+  color: hsl(159, 100%, 80%);
   padding: 1rem;
   border-radius: 0.5rem;
   display: flex;
@@ -214,6 +238,15 @@ const ErrorBox = styled.div`
 const Inputfield = styled.section`
   display: flex;
   justify-content: space-between;
+  /* height: 35px; */
+`;
+
+const Input = styled.input`
+  display: flex;
+  justify-content: space-between;
+  padding-inline-start: 3px;
+  width: auto;
+  font-size: 'Roboto', sans-serif;
 `;
 
 const NavWrapper = styled.nav`
@@ -223,7 +256,7 @@ const NavWrapper = styled.nav`
   flex-direction: row;
   justify-content: space-around;
   position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
-  bottom: 0;
+  bottom: 15px;
   right: 0;
   left: 0;
   z-index: 100;
@@ -231,29 +264,30 @@ const NavWrapper = styled.nav`
   margin-top: 0;
 `;
 
-const NavBox = styled.ul`
-  background-color: #f8f8ff;
+const Button = styled.button`
+  /* background-color: #f8f8ff; */
   height: 60px;
   width: 350px;
   box-shadow: 0px 1px 3px #87878a;
   border-radius: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  list-style: none;
+  border: none;
+  align-items: center;
   z-index: 100;
-  color: grey;
   padding: 0;
   margin-top: 0;
-`;
-
-const Button = styled.button`
-  font-weight: bold;
-  padding: 0.75rem 2rem;
-  width: 15rem;
-  margin: auto;
-  border: solid 1px;
-  border-radius: 0.4rem;
   background: #22e006;
   cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
 `;
+
+// const Button = styled.button`
+//   font-weight: bold;
+//   padding: 0.75rem 2rem;
+//   width: 15rem;
+//   margin: auto;
+//   border: solid 1px;
+//   border-radius: 0.4rem;
+//   background: #22e006;
+//   cursor: pointer;
+// `;

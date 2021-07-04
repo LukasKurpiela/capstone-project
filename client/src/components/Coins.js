@@ -91,8 +91,8 @@ const MarketCapWrapper = styled.span`
 `;
 
 const CoinImage = styled.img`
-  height: 1.5rem;
-  width: 1.5rem;
+  height: 1.35rem;
+  width: 1.35rem;
   margin-right: 0.625rem;
 `;
 

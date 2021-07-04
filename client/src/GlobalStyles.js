@@ -22,7 +22,8 @@ body {
   font-family: 'Roboto', sans-serif;
   color: #1D1D1F;
   font-size: 14px;
-  margin-bottom: 6.25rem;
+  margin-bottom: 6.75rem;
+  margin-top: 5.25rem;
 }
 
 

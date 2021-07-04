@@ -3,17 +3,34 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { ReactComponent as StarNotFilled } from '../images/star-noFill-empty.svg';
 import { ReactComponent as StarFilled } from '../images/star-noFill-filled.svg';
+import { calculateQuantityPerCoin } from '../lib/calculations';
 
-export default function Portfolio({ coin, onToggleFavorite, allCoins }) {
+export default function Portfolio({
+  coin,
+  onToggleFavorite,
+  allCoins,
+  portfolioCoins,
+  onAddTotalValue,
+}) {
   const history = useHistory();
 
   const updatedCoin = allCoins.find(
     (favoriteCoin) => favoriteCoin.name === coin.name
   );
 
+  const historyCoins = portfolioCoins.filter(
+    (historyCoin) => historyCoin.name === coin.name
+  );
+
   const { image, name, symbol } = updatedCoin;
   const { price_change_percentage_24h: priceChange, current_price: price } =
     updatedCoin;
+
+  function setPortfolioValuePerCoin(historyCoins) {
+    const totalValuePerCoin = price * calculateQuantityPerCoin(historyCoins);
+    onAddTotalValue(totalValuePerCoin.toString());
+    return totalValuePerCoin;
+  }
 
   function navigateToOverview() {
     history.push('/portfolio/overview', updatedCoin);
@@ -47,6 +64,13 @@ export default function Portfolio({ coin, onToggleFavorite, allCoins }) {
             )}
           </PriceWrapper>
           <HoldingsWrapper onClick={navigateToOverview}>
+
+            <CoinHoldingsPerCoin>
+              $
+              {setPortfolioValuePerCoin(historyCoins).toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 3,
+
             <CoinHoldingsTotal>
               $
               {price.toLocaleString('de-DE', {
@@ -60,6 +84,13 @@ export default function Portfolio({ coin, onToggleFavorite, allCoins }) {
                 maximumFractionDigits: 2,
               })}
             </CoinHoldingsPerCoin>
+            <CoinQuantityPerCoin>
+              {calculateQuantityPerCoin(historyCoins).toLocaleString({
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 3,
+              })}
+              {symbol}
+            </CoinQuantityPerCoin>
           </HoldingsWrapper>
         </CoinData>
         <span onClick={() => onToggleFavorite(coin)}>
@@ -111,8 +142,8 @@ const HoldingsWrapper = styled.span`
 `;
 
 const CoinImage = styled.img`
-  height: 1.5rem;
-  width: 1.5rem;
+  height: 1.35rem;
+  width: 1.35rem;
   margin-right: 0.625rem;
 `;
 
@@ -147,14 +178,15 @@ const PriceChangePositive = styled.span`
   color: green;
 `;
 
-const CoinHoldingsTotal = styled.span`
+const CoinHoldingsPerCoin = styled.span`
   width: 7.8rem;
   padding-bottom: 10px;
   font-weight: bold;
 `;
 
-const CoinHoldingsPerCoin = styled.span`
+const CoinQuantityPerCoin = styled.span`
   width: 7.8rem;
+  text-transform: uppercase;
 `;
 
 const StarImageFilled = styled(StarFilled)`
