@@ -58,6 +58,7 @@ const NewsWrapper = styled.div`
   height: 7rem;
   border-bottom: 1px solid #d7d7d7;
   padding: 1rem 0;
+  width: 340px;
 `;
 
 const ArticleWrapper = styled.div`

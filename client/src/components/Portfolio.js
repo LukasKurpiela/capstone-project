@@ -84,7 +84,7 @@ export default function Portfolio({
               {calculateQuantityPerCoin(historyCoins).toLocaleString({
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 3,
-              })}
+              })}{' '}
               {symbol}
             </CoinQuantityPerCoin>
           </HoldingsWrapper>
