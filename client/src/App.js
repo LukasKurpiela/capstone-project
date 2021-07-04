@@ -74,7 +74,6 @@ function App() {
       .catch((error) => console.log(error.message));
   }, []);
 
-
   useEffect(() => {
     saveToLocal('allCoins', allCoins);
   }, [allCoins]);
