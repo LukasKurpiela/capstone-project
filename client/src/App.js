@@ -19,9 +19,11 @@ function App() {
   const [portfolioCoins, setPortfolioCoins] = useState(
     loadFromLocal('portfolioCoins') ?? []
   );
+
   const [portfolioCoinsDatabase, setPortfolioCoinsDatabase] = useState(
     loadFromLocal('portfolioCoinsDatabase') ?? []
   );
+
   const [news, setNews] = useState([]);
   const [exchanges, setExchanges] = useState(loadFromLocal('exchanges') ?? []);
   const [search, setSearch] = useState('');
@@ -71,6 +73,7 @@ function App() {
       .then((databaseCoins) => setPortfolioCoinsDatabase(databaseCoins))
       .catch((error) => console.log(error.message));
   }, []);
+
 
   useEffect(() => {
     saveToLocal('allCoins', allCoins);
@@ -234,6 +237,12 @@ function App() {
         </Route>
         <Route path="/news">
           <Newspage news={news} />
+        </Route>
+
+        <Route path="/news">
+          <main>
+            <Newspage news={news} />
+          </main>
         </Route>
       </Switch>
     </CoinApp>

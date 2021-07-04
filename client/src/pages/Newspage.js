@@ -5,9 +5,14 @@ export default function Newspage({ news }) {
   return (
     <>
       <HeadlineWrapper>
+
         <NewsHeader>News</NewsHeader>
       </HeadlineWrapper>
       {news.map((news) => (
+
+        <h2>News</h2>
+      </HeadlineWrapper>
+      {news.map((news, index) => (
         <NewsWrapper>
           <NewsImage src={news.imageurl} alt="Image of news" />
           <ArticleWrapper>
@@ -28,6 +33,7 @@ export default function Newspage({ news }) {
 }
 
 const HeadlineWrapper = styled.div`
+
   display: flex;
   justify-content: center;
   font-weight: bold;
@@ -37,6 +43,14 @@ const HeadlineWrapper = styled.div`
 
 const NewsHeader = styled.h2`
   margin-bottom: 0.5rem;
+`;
+
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  margin-top: 90px;
+  padding-bottom: 0;
 `;
 
 const NewsImage = styled.img`

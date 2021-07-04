@@ -30,6 +30,22 @@ server.use(express.json());
 
 server.get('/health', (req, res) =>
   res.json({ status: 'Server is up and running' })
+
+import path from 'path';
+import dirname from './lib/pathHelpers.js';
+
+const __dirname = dirname(import.meta.url);
+
+const server = express();
+
+dotenv.config();
+const api_key = process.env.API_KEY;
+
+server.use(cors());
+
+server.get('/health', (req, res) =>
+  res.json({ message: 'Server is up and running' })
+
 );
 
 server.get('/apiNews', (req, res) => {
@@ -41,6 +57,7 @@ server.get('/apiNews', (req, res) => {
     .catch((error) => res.json(error));
 });
 
+
 server.use(coinRoutes);
 
 server.use(express.static(path.join(__dirname, '../../client/build')));
@@ -49,4 +66,8 @@ server.get('/*', (req, res) => {
 });
 
 const port = process.env.PORT || 4000;
+
 server.listen(port, () => `Server is listening on port ${port}`);
+
+server.listen(port);
+

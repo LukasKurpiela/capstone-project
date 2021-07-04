@@ -64,11 +64,24 @@ export default function Portfolio({
             )}
           </PriceWrapper>
           <HoldingsWrapper onClick={navigateToOverview}>
+
             <CoinHoldingsPerCoin>
               $
               {setPortfolioValuePerCoin(historyCoins).toLocaleString('de-DE', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 3,
+
+            <CoinHoldingsTotal>
+              $
+              {price.toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </CoinHoldingsTotal>
+            <CoinHoldingsPerCoin>
+              {price.toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
               })}
             </CoinHoldingsPerCoin>
             <CoinQuantityPerCoin>
