@@ -2,6 +2,7 @@ import Coins from '../components/Coins';
 import Headline from '../components/Headline';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 export default function Coinpage({ filteredCoins, onToggleFavorite }) {
   return (
@@ -20,6 +21,11 @@ export default function Coinpage({ filteredCoins, onToggleFavorite }) {
     </>
   );
 }
+
+Coinpage.propTypes = {
+  filteredCoins: PropTypes.arrayOf(PropTypes.object),
+  onToggleFavorite: PropTypes.func,
+};
 
 const CoinBlockWrapperStatic = styled.div`
   padding-top: 116px;

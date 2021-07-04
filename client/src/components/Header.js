@@ -13,6 +13,10 @@ export default function Header({ isStatic }) {
   );
 }
 
+Header.propTypes = {
+  isStatic: PropTypes.bool,
+};
+
 const StyledHeader = styled.header`
   background-color: #f8f8ff;
   height: 90px;

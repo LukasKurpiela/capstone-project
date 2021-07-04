@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 export default function Searchbar({ handleChange }) {
@@ -9,6 +10,10 @@ export default function Searchbar({ handleChange }) {
     </>
   );
 }
+
+Searchbar.propTypes = {
+  handleChange: PropTypes.func,
+};
 
 const SearchBar = styled.form`
   margin: 26px 28px 30px 28px;

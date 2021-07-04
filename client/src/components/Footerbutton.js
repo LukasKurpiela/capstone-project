@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
 import { useHistory } from 'react-router-dom';
 
@@ -11,6 +12,10 @@ export default function Footerbutton({ isStatic }) {
   function navigateToForm() {
     history.push('/portfolio/addform');
   }
+
+  Footerbutton.propTypes = {
+    isStatic: PropTypes.bool,
+  };
 
   return (
     <footer>

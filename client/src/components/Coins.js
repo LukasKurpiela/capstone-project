@@ -1,13 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ReactComponent as StarNotFilled } from '../images/star-noFill-empty.svg';
 import { ReactComponent as StarFilled } from '../images/star-noFill-filled.svg';
+import Coinpage from '../pages/Coinpage';
 
 export default function Coins({ coin, onToggleFavorite }) {
   const { image, name, symbol } = coin;
   const { price_change_percentage_24h: priceChange, current_price: price } =
     coin;
   const { market_cap: marketCap, total_volume: volume } = coin;
+
+  Coins.propTypes = {
+    coin: PropTypes.object,
+    onToggleFavorite: PropTypes.bool,
+  };
 
   return (
     <CoinWrapper>

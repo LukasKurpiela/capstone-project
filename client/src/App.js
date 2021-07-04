@@ -28,9 +28,11 @@ function App() {
   const [exchanges, setExchanges] = useState(loadFromLocal('exchanges') ?? []);
   const [search, setSearch] = useState('');
 
-  const [holdingsPerCoin, setHoldingsPerCoin] = useState(
-    loadFromLocal('holdingsPerCoin') ?? []
-  );
+  // const [holdingsPerCoin, setHoldingsPerCoin] = useState(
+  //   loadFromLocal('holdingsPerCoin') ?? []
+  // );
+
+  const [holdingsPerCoin, setHoldingsPerCoin] = useState([]);
 
   useEffect(() => {
     fetch(
@@ -94,9 +96,9 @@ function App() {
     saveToLocal('portfolioCoinsDatabase', portfolioCoinsDatabase);
   }, [portfolioCoinsDatabase]);
 
-  useEffect(() => {
-    saveToLocal('holdingsPerCoin', holdingsPerCoin);
-  }, [holdingsPerCoin]);
+  // useEffect(() => {
+  //   saveToLocal('holdingsPerCoin', holdingsPerCoin);
+  // }, [holdingsPerCoin]);
 
   function postCoinDatabase(coin) {
     fetch('http://localhost:4000/coins', {
@@ -146,8 +148,16 @@ function App() {
     setPortfolioCoins([...portfolioCoins, portfolioCoin]);
   }
 
+  // const [holdingsPerCoin, setHoldingsPerCoin] = useState(
+  //   loadFromLocal('holdingsPerCoin') ?? []
+  // );
+
   function addTotalValue(totalValuePerCoin) {
+    // setHoldingsPerCoin([...holdingsPerCoin, totalValuePerCoin]);
     setHoldingsPerCoin(totalValuePerCoin);
+
+    console.log(totalValuePerCoin);
+    console.log(holdingsPerCoin);
   }
 
   function loadFavoriteCoin(coins, setFavorites) {

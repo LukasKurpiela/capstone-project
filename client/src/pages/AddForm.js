@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { loadFromLocal, saveToLocal } from '../lib/localStorage';
 import { useHistory } from 'react-router-dom';
@@ -67,6 +68,13 @@ export default function AddForm({
       setTimeout(() => setIsError(false), 3000);
     }
   }
+
+  AddForm.propTypes = {
+    onAddCoin: PropTypes.func,
+    exchanges: PropTypes.arrayOf(PropTypes.object),
+    isStatic: PropTypes.bool,
+    onPostCoinDatabase: PropTypes.func,
+  };
 
   return (
     <Form onSubmit={handleForm}>

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 export default function Headline({
@@ -13,6 +14,12 @@ export default function Headline({
     </HeadlineWrapper>
   );
 }
+
+Headline.propTypes = {
+  Headlinetext1: PropTypes.string,
+  Headlinetext2: PropTypes.string,
+  Headlinetext3: PropTypes.string,
+};
 
 const HeadlineWrapper = styled.h4`
   width: 335px;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Portfolio from '../components/Portfolio';
 import Headline from '../components/Headline';
 import Footer from '../components/Footer';
@@ -35,6 +36,14 @@ export default function Portfoliopage({
     </>
   );
 }
+
+Portfoliopage.propTypes = {
+  onToggleFavorite: PropTypes.func,
+  likedCoins: PropTypes.arrayOf(PropTypes.object),
+  allCoins: PropTypes.arrayOf(PropTypes.object),
+  portfolioCoins: PropTypes.arrayOf(PropTypes.object),
+  onAddTotalValue: PropTypes.func,
+};
 
 const PortfolioBar = styled.div`
   margin: 26px 14px 30px 14px;

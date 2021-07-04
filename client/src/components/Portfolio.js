@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { ReactComponent as StarNotFilled } from '../images/star-noFill-empty.svg';
@@ -28,13 +29,21 @@ export default function Portfolio({
 
   function setPortfolioValuePerCoin(historyCoins) {
     const totalValuePerCoin = price * calculateQuantityPerCoin(historyCoins);
-    onAddTotalValue(totalValuePerCoin.toString());
+    onAddTotalValue(totalValuePerCoin);
     return totalValuePerCoin;
   }
 
   function navigateToOverview() {
     history.push('/portfolio/overview', updatedCoin);
   }
+
+  Portfolio.propTypes = {
+    coin: PropTypes.object,
+    onToggleFavorite: PropTypes.func,
+    allCoins: PropTypes.arrayOf(PropTypes.object),
+    portfolioCoins: PropTypes.arrayOf(PropTypes.object),
+    onAddTotalValue: PropTypes.func,
+  };
 
   return (
     <CoinWrapper>

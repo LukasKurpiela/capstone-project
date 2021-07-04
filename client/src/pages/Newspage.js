@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 
@@ -26,6 +27,10 @@ export default function Newspage({ news }) {
     </>
   );
 }
+
+Newspage.propTypes = {
+  news: PropTypes.arrayOf(PropTypes.object),
+};
 
 const HeadlineWrapper = styled.div`
   display: flex;

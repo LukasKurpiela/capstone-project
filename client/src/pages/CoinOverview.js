@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import Headline from '../components/Headline';
 import Footer from '../components/Footer';
@@ -28,6 +28,13 @@ export default function PortfolioOverview({
   function navigateToPortfolio() {
     history.push('/portfolio', historyCoins);
   }
+
+  PortfolioOverview.propTypes = {
+    portfolioCoins: PropTypes.arrayOf(PropTypes.object),
+    isStatic: PropTypes.bool,
+    onDeleteCoinHistory: PropTypes.func,
+    onDeleteCoinDatabase: PropTypes.func,
+  };
 
   return (
     <BodyWrapper>

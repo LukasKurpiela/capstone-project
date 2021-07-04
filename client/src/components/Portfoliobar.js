@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { calculateHoldingsTotal } from '../lib/calculations';
 
@@ -21,6 +22,11 @@ export default function Portfoliobar({ portfolioCoins, historyCoins }) {
     </>
   );
 }
+
+Portfoliobar.propTypes = {
+  portfolioCoins: PropTypes.arrayOf(PropTypes.object),
+  historyCoins: PropTypes.arrayOf(PropTypes.object),
+};
 
 const PortfolioBar = styled.div`
   margin: 26px 14px 30px 14px;

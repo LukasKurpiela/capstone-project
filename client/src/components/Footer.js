@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
@@ -24,6 +25,10 @@ export default function Footer({ isStatic }) {
     </footer>
   );
 }
+
+Footer.propTypes = {
+  isStatic: PropTypes.bool,
+};
 
 const NavWrapper = styled.nav`
   padding-bottom: 20px;
