@@ -26,7 +26,7 @@ export default function AddForm({
     exchange: '---------',
     price: '',
     quantity: '',
-    date: '--.--.----',
+    date: '----/--/--',
     note: '',
   };
 
@@ -35,7 +35,7 @@ export default function AddForm({
   }
 
   const [portfolioCoin, setportfolioCoin] = useState(
-    loadFromLocal('portFolioCoin') ?? initialCoinState
+    loadFromLocal('portfolioCoin') ?? initialCoinState
   );
   const [isError, setIsError] = useState(false);
   const [isDone, setIsDone] = useState(false);
@@ -137,7 +137,6 @@ export default function AddForm({
           name="date"
           onChange={updateCoin}
           value={portfolioCoin.date}
-          placeholder="dd.mm.yyyy"
         />
       </Inputfield>
       <Inputfield>

@@ -23,6 +23,7 @@ const HeadlineWrapper = styled.h4`
   border-bottom: 1px solid #d7d7d7;
   position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
   background-color: white;
+  left: 20px;
   z-index: 100;
 `;
 
@@ -34,7 +35,7 @@ const HeadlineTagLeft = styled.span`
 
 const HeadlineTagCenter = styled.span`
   position: absolute;
-  padding-left: 35%;
+  padding-left: 42.5%;
 `;
 
 const HeadlineTagRight = styled.span`

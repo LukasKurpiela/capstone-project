@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { ReactComponent as StarNotFilled } from '../images/star-noFill-empty.svg';
 import { ReactComponent as StarFilled } from '../images/star-noFill-filled.svg';
+import { calculateQuantityPerCoin } from '../lib/calculations';
 
 export default function Portfolio({
   coin,
   onToggleFavorite,
   allCoins,
   portfolioCoins,
-  setPortfolioValue,
+  onAddTotalValue,
 }) {
   const history = useHistory();
 
@@ -25,71 +26,9 @@ export default function Portfolio({
   const { price_change_percentage_24h: priceChange, current_price: price } =
     updatedCoin;
 
-  // function calculateProfitLossPerCoin(historyCoins) {
-  //   const boughtCoinsObject = historyCoins.filter(
-  //     (boughtCoin) => boughtCoin.buyOrSell === 'buy'
-  //   );
-  //   const totalSumBought = boughtCoinsObject.reduce(
-  //     (a, b) => parseFloat(a) + parseFloat(b.price) * parseFloat(b.quantity),
-  //     0
-  //   );
-
-  //   const soldCoinsObject = historyCoins.filter(
-  //     (boughtCoin) => boughtCoin.buyOrSell === 'sell'
-  //   );
-  //   const totalSumSold = soldCoinsObject.reduce(
-  //     (a, b) => parseFloat(a) + parseFloat(b.price) * parseFloat(b.quantity),
-  //     0
-  //   );
-  //   const totalProfitLoss = totalSumBought - totalSumSold;
-  //   return totalProfitLoss;
-  // }
-
-  // function calculateTotalPortfolioValue(historyCoins) {
-  //   const boughtCoinsObject = historyCoins.filter(
-  //     (boughtCoin) => boughtCoin.buyOrSell === 'buy'
-  //   );
-  //   const totalQuantityBought = boughtCoinsObject.reduce(
-  //     (a, b) => parseFloat(a) + parseFloat(b.quantity),
-  //     0
-  //   );
-
-  //   const soldCoinsObject = historyCoins.filter(
-  //     (boughtCoin) => boughtCoin.buyOrSell === 'sell'
-  //   );
-  //   const totalQuantitySold = soldCoinsObject.reduce(
-  //     (a, b) => parseFloat(a) + parseFloat(b.quantity),
-  //     0
-  //   );
-  //   const totalQuantity = totalQuantityBought - totalQuantitySold;
-  //   // setPortfolioValue(totalQuantity);
-  //   return totalQuantity;
-  // }
-
-  function calculateQuantityPerCoin(historyCoins) {
-    const boughtCoinsObject = historyCoins.filter(
-      (boughtCoin) => boughtCoin.buyOrSell === 'buy'
-    );
-    const totalQuantityBought = boughtCoinsObject.reduce(
-      (a, b) => parseFloat(a) + parseFloat(b.quantity),
-      0
-    );
-
-    const soldCoinsObject = historyCoins.filter(
-      (boughtCoin) => boughtCoin.buyOrSell === 'sell'
-    );
-    const totalQuantitySold = soldCoinsObject.reduce(
-      (a, b) => parseFloat(a) + parseFloat(b.quantity),
-      0
-    );
-    const totalQuantity = totalQuantityBought - totalQuantitySold;
-    return totalQuantity;
-  }
-
   function setPortfolioValuePerCoin(historyCoins) {
     const totalValuePerCoin = price * calculateQuantityPerCoin(historyCoins);
-    // setPortfolioValue(totalValuePerCoin);
-    console.log(totalValuePerCoin);
+    onAddTotalValue(totalValuePerCoin.toString());
     return totalValuePerCoin;
   }
 
@@ -129,17 +68,14 @@ export default function Portfolio({
               $
               {setPortfolioValuePerCoin(historyCoins).toLocaleString('de-DE', {
                 minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
+                maximumFractionDigits: 3,
               })}
-              {/* .toFixed(2)
-                .replace('.', ',')
-                .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')} */}
             </CoinHoldingsPerCoin>
             <CoinQuantityPerCoin>
               {calculateQuantityPerCoin(historyCoins).toLocaleString({
                 minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}{' '}
+                maximumFractionDigits: 3,
+              })}
               {symbol}
             </CoinQuantityPerCoin>
           </HoldingsWrapper>
@@ -193,8 +129,8 @@ const HoldingsWrapper = styled.span`
 `;
 
 const CoinImage = styled.img`
-  height: 1.5rem;
-  width: 1.5rem;
+  height: 1.35rem;
+  width: 1.35rem;
   margin-right: 0.625rem;
 `;
 

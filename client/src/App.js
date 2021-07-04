@@ -26,6 +26,10 @@ function App() {
   const [exchanges, setExchanges] = useState(loadFromLocal('exchanges') ?? []);
   const [search, setSearch] = useState('');
 
+  const [holdingsPerCoin, setHoldingsPerCoin] = useState(
+    loadFromLocal('holdingsPerCoin') ?? []
+  );
+
   useEffect(() => {
     fetch(
       'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
@@ -88,13 +92,16 @@ function App() {
     saveToLocal('portfolioCoinsDatabase', portfolioCoinsDatabase);
   }, [portfolioCoinsDatabase]);
 
+  useEffect(() => {
+    saveToLocal('holdingsPerCoin', holdingsPerCoin);
+  }, [holdingsPerCoin]);
+
   function postCoinDatabase(coin) {
     fetch('http://localhost:4000/coins', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      // body: JSON.stringify(player), })
       body: JSON.stringify({
         name: coin.name,
         symbol: coin.symbol,
@@ -135,6 +142,10 @@ function App() {
 
   function addCoin(portfolioCoin) {
     setPortfolioCoins([...portfolioCoins, portfolioCoin]);
+  }
+
+  function addTotalValue(totalValuePerCoin) {
+    setHoldingsPerCoin(totalValuePerCoin);
   }
 
   function loadFavoriteCoin(coins, setFavorites) {
@@ -197,7 +208,7 @@ function App() {
             filteredCoins={filteredCoins}
             allCoins={allCoins}
             portfolioCoins={portfolioCoins}
-            // setPortfolioValue={setPortfolioValue}
+            onAddTotalValue={addTotalValue}
           />
         </Route>
         <Route path="/portfolio/overview">
