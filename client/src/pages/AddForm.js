@@ -37,12 +37,8 @@ export default function AddForm({
 
   const [portfolioCoin, setportfolioCoin] = useState(initialCoinState);
 
-  console.log(portfolioCoin);
-
   const [isError, setIsError] = useState(false);
   const [isDone, setIsDone] = useState(false);
-
-  console.log(portfolioCoin);
 
   function updateCoin(event) {
     const fieldName = event.target.name;
