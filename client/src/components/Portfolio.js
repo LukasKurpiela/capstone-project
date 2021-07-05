@@ -29,7 +29,7 @@ export default function Portfolio({
 
   function setPortfolioValuePerCoin(historyCoins) {
     const totalValuePerCoin = price * calculateQuantityPerCoin(historyCoins);
-    onAddTotalValue(totalValuePerCoin);
+    // onAddTotalValue(totalValuePerCoin);
     return totalValuePerCoin;
   }
 
