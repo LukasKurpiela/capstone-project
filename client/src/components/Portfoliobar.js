@@ -2,21 +2,18 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { calculateHoldingsTotal } from '../lib/calculations';
 
-export default function Portfoliobar({ portfolioCoins, historyCoins }) {
+export default function Portfoliobar({ portfolioCoins }) {
   return (
     <>
       <PortfolioBar>
-        <PortfoliobarHeading>Total Holdings:</PortfoliobarHeading>
+        <PortfoliobarHeading>Portfolio Profit/Loss:</PortfoliobarHeading>
         <PortfoliobarValue>
-          {/* {calculateHoldingsTotal(portfolioCoins, historyCoins).toLocaleString(
-            'en-US',
-            {
-              style: 'currency',
-              currency: 'USD',
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            }
-          )} */}
+          {calculateHoldingsTotal(portfolioCoins).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
         </PortfoliobarValue>
       </PortfolioBar>
     </>

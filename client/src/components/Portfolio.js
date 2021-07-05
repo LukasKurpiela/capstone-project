@@ -11,7 +11,6 @@ export default function Portfolio({
   onToggleFavorite,
   allCoins,
   portfolioCoins,
-  onAddTotalValue,
 }) {
   const history = useHistory();
 
@@ -29,7 +28,7 @@ export default function Portfolio({
 
   function setPortfolioValuePerCoin(historyCoins) {
     const totalValuePerCoin = price * calculateQuantityPerCoin(historyCoins);
-    // onAddTotalValue(totalValuePerCoin);
+
     return totalValuePerCoin;
   }
 

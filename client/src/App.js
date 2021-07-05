@@ -19,20 +19,12 @@ function App() {
   const [portfolioCoins, setPortfolioCoins] = useState(
     loadFromLocal('portfolioCoins') ?? []
   );
-
   const [portfolioCoinsDatabase, setPortfolioCoinsDatabase] = useState(
     loadFromLocal('portfolioCoinsDatabase') ?? []
   );
-
   const [news, setNews] = useState([]);
   const [exchanges, setExchanges] = useState(loadFromLocal('exchanges') ?? []);
   const [search, setSearch] = useState('');
-
-  // const [holdingsPerCoin, setHoldingsPerCoin] = useState(
-  //   loadFromLocal('holdingsPerCoin') ?? []
-  // );
-
-  const [holdingsPerCoin, setHoldingsPerCoin] = useState([]);
 
   useEffect(() => {
     fetch(
@@ -96,10 +88,6 @@ function App() {
     saveToLocal('portfolioCoinsDatabase', portfolioCoinsDatabase);
   }, [portfolioCoinsDatabase]);
 
-  // useEffect(() => {
-  //   saveToLocal('holdingsPerCoin', holdingsPerCoin);
-  // }, [holdingsPerCoin]);
-
   function postCoinDatabase(coin) {
     fetch('http://localhost:4000/coins', {
       method: 'POST',
@@ -146,18 +134,6 @@ function App() {
 
   function addCoin(portfolioCoin) {
     setPortfolioCoins([...portfolioCoins, portfolioCoin]);
-  }
-
-  // const [holdingsPerCoin, setHoldingsPerCoin] = useState(
-  //   loadFromLocal('holdingsPerCoin') ?? []
-  // );
-
-  function addTotalValue(totalValuePerCoin) {
-    // setHoldingsPerCoin([...holdingsPerCoin, totalValuePerCoin]);
-    setHoldingsPerCoin(totalValuePerCoin);
-
-    console.log(totalValuePerCoin);
-    console.log(holdingsPerCoin);
   }
 
   function loadFavoriteCoin(coins, setFavorites) {
@@ -210,17 +186,13 @@ function App() {
           />
         </Route>
         <Route exact path="/portfolio">
-          <Portfoliobar
-            portfolioCoins={portfolioCoins}
-            likedCoins={likedCoins}
-          />
+          <Portfoliobar portfolioCoins={portfolioCoins} />
           <Portfoliopage
             likedCoins={likedCoins}
             onToggleFavorite={toggleFavorite}
             filteredCoins={filteredCoins}
             allCoins={allCoins}
             portfolioCoins={portfolioCoins}
-            onAddTotalValue={addTotalValue}
           />
         </Route>
         <Route path="/portfolio/overview">
