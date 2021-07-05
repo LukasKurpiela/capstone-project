@@ -30,7 +30,6 @@ const HeadlineWrapper = styled.h4`
   border-bottom: 1px solid #d7d7d7;
   position: ${(props) => (props.isStatic ? 'static' : 'fixed')};
   background-color: white;
-  left: 20px;
   z-index: 100;
 `;
 

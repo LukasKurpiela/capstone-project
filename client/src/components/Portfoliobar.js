@@ -6,7 +6,7 @@ export default function Portfoliobar({ portfolioCoins, historyCoins }) {
   return (
     <>
       <PortfolioBar>
-        <PortfoliobarHeading>Total Profit/Loss:</PortfoliobarHeading>
+        <PortfoliobarHeading>Total Holdings:</PortfoliobarHeading>
         <PortfoliobarValue>
           {/* {calculateHoldingsTotal(portfolioCoins, historyCoins).toLocaleString(
             'en-US',
