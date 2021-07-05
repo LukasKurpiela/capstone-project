@@ -16,7 +16,6 @@ export default function AddForm({
   const clickedCoin = history.location.state;
 
   const { name, symbol, image } = clickedCoin;
-  console.log(clickedCoin);
 
   const initialCoinState = {
     name: name,
