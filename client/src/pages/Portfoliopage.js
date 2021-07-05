@@ -9,7 +9,6 @@ export default function Portfoliopage({
   likedCoins,
   allCoins,
   portfolioCoins,
-  onAddTotalValue,
 }) {
   return (
     <>

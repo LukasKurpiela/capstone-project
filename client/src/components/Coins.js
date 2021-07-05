@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ReactComponent as StarNotFilled } from '../images/star-noFill-empty.svg';
 import { ReactComponent as StarFilled } from '../images/star-noFill-filled.svg';
-import Coinpage from '../pages/Coinpage';
 
 export default function Coins({ coin, onToggleFavorite }) {
   const { image, name, symbol } = coin;

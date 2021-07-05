@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
-import { loadFromLocal, saveToLocal } from '../lib/localStorage';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as Close } from '../images/close.svg';
@@ -17,6 +16,7 @@ export default function AddForm({
   const clickedCoin = history.location.state;
 
   const { name, symbol, image } = clickedCoin;
+  console.log(clickedCoin);
 
   const initialCoinState = {
     name: name,
@@ -35,15 +35,14 @@ export default function AddForm({
     history.push('/portfolio/overview', clickedCoin);
   }
 
-  const [portfolioCoin, setportfolioCoin] = useState(
-    loadFromLocal('portfolioCoin') ?? initialCoinState
-  );
+  const [portfolioCoin, setportfolioCoin] = useState(initialCoinState);
+
+  console.log(portfolioCoin);
+
   const [isError, setIsError] = useState(false);
   const [isDone, setIsDone] = useState(false);
 
-  useEffect(() => {
-    saveToLocal('portfolioCoin', portfolioCoin);
-  }, [portfolioCoin]);
+  console.log(portfolioCoin);
 
   function updateCoin(event) {
     const fieldName = event.target.name;
@@ -56,7 +55,7 @@ export default function AddForm({
     event.preventDefault();
 
     if (validateEntry(portfolioCoin)) {
-      // onAddCoin({ ...portfolioCoin, id: uuidv4() });
+      onAddCoin({ ...portfolioCoin, id: uuidv4() });
       onPostCoinDatabase({ ...portfolioCoin, id: uuidv4() });
       setportfolioCoin(initialCoinState);
       setIsError(false);
@@ -246,7 +245,6 @@ const ConfirmationBox = styled.div`
 const Inputfield = styled.section`
   display: flex;
   justify-content: space-between;
-  /* height: 35px; */
 `;
 
 const Input = styled.input`
@@ -273,7 +271,6 @@ const NavWrapper = styled.nav`
 `;
 
 const Button = styled.button`
-  /* background-color: #f8f8ff; */
   height: 60px;
   width: 350px;
   box-shadow: 0px 1px 3px #87878a;
@@ -288,14 +285,3 @@ const Button = styled.button`
   font-weight: bold;
   font-size: 16px;
 `;
-
-// const Button = styled.button`
-//   font-weight: bold;
-//   padding: 0.75rem 2rem;
-//   width: 15rem;
-//   margin: auto;
-//   border: solid 1px;
-//   border-radius: 0.4rem;
-//   background: #22e006;
-//   cursor: pointer;
-// `;
