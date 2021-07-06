@@ -1,5 +1,5 @@
 # Capstone-project CoinTrax
-CoinTrax ist ein Kryptowährungs-Tracker mit dem sich das Marktgeschehen der Top 100 Kryptowährungen verfolgen lässt. Die eigenen Lieblingscoins können favorisiert und ein persönliches Portfolio inkl. Transaktionshistorie kann erstellt werden. Auf der Newsseite werden die Neuigkeiten zum Thema Kryptowährungen angezeigt.
+CoinTrax ist ein Kryptowährungs-Tracker mit dem sich das Marktgeschehen der Top 100 Kryptowährungen verfolgen lässt. Die eigenen Lieblingscoins können favorisiert und ein persönliches Portfolio inkl. Transaktionshistorie kann erstellt werden. Auf der Newsseite werden die Neuigkeiten zum Thema Blockchain und Kryptowährungen angezeigt.
 
 ## Link zu Heroku: 
 https://cointrax-app.herokuapp.com/
