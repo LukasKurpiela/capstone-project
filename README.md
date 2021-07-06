@@ -12,10 +12,8 @@ In the project directory, you can run:
 
 ### `npm run dev`
 
-Starts the app in development mode when entering npm run dev.
-Make sure MongoDB is running.
+Entering "npm run dev" will start the app in development mode.Please make sure MongoDB is running.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Entering "npm run build" will build the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance.
